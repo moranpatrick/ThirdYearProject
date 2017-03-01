@@ -2,55 +2,65 @@ angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
 
-  // Form data for the login modal
-  $scope.loginData = {};
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
 })
 
-.controller('PlaylistsCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
-})
+.controller('Home_Page_Ctrl', function($scope, $ionicModal, $timeout) {
+    //Sliding images acting as a gallery on home page
+    $scope.slide_items=[{"p_image_id":"dj"}, {"p_image_id":"dj1"}, {"p_image_id":"dj3"}];
+    /*Function to open default email client on phone and prepare an email*/
+    $scope.sendEmail= function() {
+        if(window.plugins && window.plugins.emailComposer) {
+            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                console.log("Response -> " + result);
+            }, 
+            "Feedback From App", // Subject
+            "Hi, ",                      // Body
+            ["djgarrylee@gmail.com"],    // To
+            null,                    // CC
+            null,                    // BCC
+            false,                   // isHTML
+            null,                    // Attachments
+            null);                   // Attachment Data
+        }//if
+    }
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
-});
+})//Home_Page_Ctrl
+
+.controller('Shout_Outs_Ctrl', function($scope, $http, $ionicPopup) {
+      
+    $scope.send_shout_out= function(data) {
+        //console.log("Sending Shout Out!!");
+        $data = data;
+        var link = 'http://127.0.0.1/shout_out.php';
+
+        $http.post(link, {n : data.name, m : data.message })
+		    .then(function (res){	
+				
+                $scope.response = res.data.result; 
+                //Evaluate Response
+                if($scope.response.inserted == "1"){
+                    $scope.title = "Message Sent!";
+					$scope.message = "Your Message has been sent!";
+                }
+                else if($scope.response.inserted == "0"){
+                    $scope.title = "OOPS!";
+					$scope.message = "Something Went Wrong - Your Message Was not Sent!";
+                }
+
+                //Show alert to the user - success or failure
+                var alertPopup = $ionicPopup.alert({
+						title: $scope.title,
+						template: $scope.message
+				});
+                 
+                //Clear The input fields
+                $data.name = "";
+                $data.message = "";      
+        });
+
+    }//shout_out_function
+
+});//Shout_Outs_Ctrl
+

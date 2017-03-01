@@ -1,0 +1,17 @@
+<ion-view view-title="Shout Outs">
+  <ion-content>     
+      <div class="form">
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Name</span>
+          <input type="text" ng-model="data.name" placeholder="Enter Your Name here">
+        </label>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Message</span>
+          <input type="text" ng-model="data.message" placeholder="Enter your Message Here">
+        </label>
+        <div id="button">
+        <button class="button button-balanced" ng-click="send_shout_out(data)">Send</button>
+        </div>
+      </div
+  </ion-content>
+</ion-view>

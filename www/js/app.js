@@ -25,49 +25,78 @@ angular.module('starter', ['ionic', 'starter.controllers'])
 .config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
 
-    .state('app', {
+  .state('app', {
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: '/search',
+  .state('app.requests', {
+    url: '/requests',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/requests.html'
       }
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-    .state('app.playlists', {
-      url: '/playlists',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/playlists.html',
-          controller: 'PlaylistsCtrl'
-        }
-      }
-    })
-
-  .state('app.single', {
-    url: '/playlists/:playlistId',
+  .state('app.home', {
+    url: '/home',
     views: {
       'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
+        templateUrl: 'templates/home.html',
+        controller: 'Home_Page_Ctrl'
       }
     }
-  });
+  })
+
+  .state('app.shout_outs', {
+    url: '/shout_outs',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/shout_outs.html',
+        controller: 'Shout_Outs_Ctrl'
+      }
+    }
+  })
+
+  .state('app.bookings', {
+    url: '/bookings',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/bookings.html',
+      }
+    }
+  })
+
+  .state('app.login', {
+    url: '/login',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/login.html',
+      }
+    }
+  })
+  
+  .state('app.rock', {
+    url: '/rock',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/rock.html',
+      }
+    }
+  })
+
+  .state('app.pop', {
+    url: '/pop',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/pop.html',
+      }
+    }
+  })
+
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/playlists');
+  $urlRouterProvider.otherwise('/app/home');
 });
