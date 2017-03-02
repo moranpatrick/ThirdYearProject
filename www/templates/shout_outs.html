@@ -1,5 +1,5 @@
 <ion-view view-title="Shout Outs">
-  <ion-content>     
+  <ion-content padding="'true'">     
       <div class="form">
         <label class="item item-input item-floating-label">
           <span class="input-label">Name</span>
@@ -7,11 +7,9 @@
         </label>
         <label class="item item-input item-floating-label">
           <span class="input-label">Message</span>
-          <input type="text" ng-model="data.message" placeholder="Enter your Message Here">
+          <textarea type="text" rows="8" ng-model="data.message" placeholder="Enter your Message Here"></textarea>
         </label>
-        <div id="button">
-        <button class="button button-balanced" ng-click="send_shout_out(data)">Send</button>
-        </div>
+        <button class="button button-balanced button-block" ng-click="send_shout_out(data)">Send</button>
       </div
   </ion-content>
 </ion-view>
