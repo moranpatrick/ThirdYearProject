@@ -1,22 +1,29 @@
 <ion-view title="Register">
     <ion-content padding="'true'">
-        <form class="list">
+        <form name="myForm" class="list" novalidate>
             <ion-list>
                 <label class="item item-input">
                     <span class="input-label">Email</span>
-                    <input type="email" placeholder="" ng-model="data.email">
+                    <input type="email" name="email" ng-model="data.email" required>
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Username</span>
-                    <input type="text" ng-model="data.username">
+                    <input type="text" name="username" ng-model="data.username" required> 
                 </label>
                 <label class="item item-input">
                     <span class="input-label">Password</span>
-                    <input type="password" placeholder="" ng-model="data.password">
+                    <input type="password" name="password" ng-minlength="6" ng-model="data.password" required>
                 </label>
             </ion-list>
 
-            <button ng-click="register(data)" class="button button-balanced button-block ">Register</button>
+            <button ng-click="register(data)" ng-disabled="myForm.$invalid" class="button button-balanced button-block ">Register</button>
+            
+            <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
+                <p ng-show="myForm.email.$error.required">* An email is required *</p>
+                <p ng-show="myForm.username.$error.required">* A username is required *</p>
+                <p ng-show="myForm.password.$error.required">* A password is required *</p>
+                <p ng-show="myForm.password.$error.minlength">* Password must be at least 6 characters *</p>
+          </div>
         </form>
     </ion-content>
 </ion-view>

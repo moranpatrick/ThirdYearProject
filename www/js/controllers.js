@@ -1,9 +1,15 @@
 angular.module('starter.controllers', [])
 
-.controller('Menu_Ctrl', function($scope, $state) {
+.controller('Menu_Ctrl', function($scope, $state, $ionicHistory) {
 
     $scope.reloadHome = function() {
         $state.go('app.home', {}, {reload: true});
+
+        $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+            reload: true
+        });
     }
 })
 
@@ -29,11 +35,67 @@ angular.module('starter.controllers', [])
 
 })//Home_Page_Ctrl
 
+.controller('Bookings_Ctrl', function($scope, $http, $state, $ionicHistory) {
+
+    /*Function to open default email client on phone and prepare an email*/
+    $scope.make_booking = function(data) {
+        $name = data.name;
+        $telephone = data.telephone;
+        $message = data.message;
+
+        $http({
+            method: 'POST',
+            url: 'http://127.0.0.1/booking.php',
+            data: 'Name: ' + $name + 'Number: ' + $telephone + 'Message: ' + $message
+
+        }).
+        success(function(data, status){
+
+
+        }).
+        error(function(data, status){
+
+        });
+
+    }//make_booking()
+
+})//Home_Page_Ctrl
+
+.controller('Login_Ctrl', function($scope, $http, $state, $ionicHistory, $ionicPopup) {
+    $scope.data = {};
+
+    $scope.login = function() {
+        //console.log("In Login: " + $scope.data.username + " " + $scope.data.password)
+
+        str="http://127.0.0.1/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
+        $http.get(str)
+			.success(function (response){
+				$scope.user_details = response.records;
+                console.log("Login Sucessful");
+				sessionStorage.setItem('loggedin_name', $scope.user_details.username);
+				sessionStorage.setItem('loggedin_id', $scope.user_details.email);
+			
+				$ionicHistory.nextViewOptions({
+					disableAnimate: true,
+					disableBack: true
+				});
+                $state.go('app.home', {}, {location: "replace", reload: true});
+
+			}).error(function() {
+					var alertPopup = $ionicPopup.alert({
+						title: 'Login failed!',
+						template: 'Please check your credentials!'
+					});
+			});
+    }//login()
+
+})//Home_Page_Ctrl
+
 .controller('Register_Ctrl', function($scope, $state, $http, $ionicHistory, $ionicPopup) {
 	$scope.register = function(data){
             $data = data;
 			var link = 'http://127.0.0.1/register.php';
-
+            //var link = 'http://52.25.228.105/register.php';
             $http.post(link, {e : data.email, u : data.username, p : data.password})
 			.then(function (res){	
 				$scope.response = res.data.result; 
@@ -79,6 +141,7 @@ angular.module('starter.controllers', [])
     $scope.send_shout_out= function(data) {
 
         $data = data;
+        //var link = 'http://52.25.228.105/shout_out.php';
         var link = 'http://127.0.0.1/shout_out.php';
 
         $http.post(link, {n : data.name, m : data.message })

@@ -1,15 +1,23 @@
 <ion-view view-title="Shout Outs">
   <ion-content padding="'true'">     
-      <div class="form">
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Name</span>
-          <input type="text" ng-model="data.name" placeholder="Enter Your Name here">
-        </label>
-        <label class="item item-input item-floating-label">
-          <span class="input-label">Message</span>
-          <textarea type="text" rows="8" ng-model="data.message" placeholder="Enter your Message Here"></textarea>
-        </label>
-        <button class="button button-balanced button-block" ng-click="send_shout_out(data)">Send</button>
-      </div
+      <form name="myForm" novalidate>
+        <div class="list">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Name</span>
+            <input type="text" name="name" ng-model="data.name" ng-maxlength="30" placeholder="Enter Your Name here" required>
+          </label>
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Message</span>
+            <textarea type="text" name="message" rows="8" ng-model="data.message" ng-maxlength="200" placeholder="Enter your Message Here" required></textarea>
+          </label>
+          <button class="button button-balanced button-block" ng-disabled="myForm.$invalid" ng-click="send_shout_out(data)">Send</button>
+          <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
+            <p ng-show="myForm.name.$error.required">* A Name is required *</p>
+            <p ng-show="myForm.message.$error.required">* A message is required *</p>
+            <p ng-show="myForm.message.$error.maxlength">* Message can be no longer than 200 characters *</p>
+            <p ng-show="myForm.name.$error.maxlength">* Name can be no longer than 30 characters *</p>
+          </div>
+        </div
+      </form>
   </ion-content>
 </ion-view>

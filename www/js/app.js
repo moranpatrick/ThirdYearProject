@@ -29,16 +29,28 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'Menu_Ctrl'
+    controller: 'Menu_Ctrl',
+
   })
 
   .state('app.requests', {
     url: '/requests',
     views: {
       'menuContent': {
-        templateUrl: 'templates/requests.html'
+        templateUrl: 'templates/requests.html',
+
+        resolve:{
+  			  "check":function($location){  
+  				  if(sessionStorage.getItem('loggedin_id')){ 
+              $location.path('/requests');   
+            }
+  				  else{ 
+             $location.path('/login');   
+           }
+  			  }
+  		  }//resolve
       }
-    }
+    }//views
   })
 
   .state('app.home', {
@@ -46,7 +58,19 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: 'templates/home.html',
-        controller: 'Home_Page_Ctrl'
+        controller: 'Home_Page_Ctrl',
+
+  	  	resolve:{
+  			  "check":function($location){  
+  				  if(sessionStorage.getItem('loggedin_id')){ 
+              $location.path('/home');   
+            }
+  				  else{ 
+              $location.path('/login');   
+            }
+  		  	}//check
+  		  }//resolve
+
       }
     }
   })
@@ -56,7 +80,17 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: 'templates/shout_outs.html',
-        controller: 'Shout_Outs_Ctrl'
+        controller: 'Shout_Outs_Ctrl',
+        resolve:{
+  			  "check":function($location){  
+  				  if(sessionStorage.getItem('loggedin_id')){ 
+              $location.path('/shout_outs');   
+            }
+  				  else{ 
+             $location.path('/login');   
+           }
+  			  }
+  		  }//resolve
       }
     }
   })
@@ -66,6 +100,18 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: 'templates/bookings.html',
+        controller: 'Bookings_Ctrl',
+
+        resolve:{
+  			  "check":function($location){  
+  				  if(sessionStorage.getItem('loggedin_id')){ 
+              $location.path('/bookings');   
+            }
+  				  else{ 
+             $location.path('/login');   
+           }
+  			  }
+  		  }//resolve
       }
     }
   })
@@ -75,6 +121,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     views: {
       'menuContent': {
         templateUrl: 'templates/login.html',
+        controller: 'Login_Ctrl'
+
+
       }
     }
   })
@@ -108,5 +157,5 @@ angular.module('starter', ['ionic', 'starter.controllers'])
   })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/app/home');
+  $urlRouterProvider.otherwise('/app/login');
 });
