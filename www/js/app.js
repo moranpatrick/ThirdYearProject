@@ -39,16 +39,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: 'templates/requests.html',
 
-        resolve:{
-  			  "check":function($location){  
-  				  if(sessionStorage.getItem('loggedin_id')){ 
-              $location.path('/requests');   
-            }
-  				  else{ 
-             $location.path('/login');   
-           }
-  			  }
-  		  }//resolve
+
       }
     }//views
   })
@@ -60,16 +51,6 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         templateUrl: 'templates/home.html',
         controller: 'Home_Page_Ctrl',
 
-  	  	resolve:{
-  			  "check":function($location){  
-  				  if(sessionStorage.getItem('loggedin_id')){ 
-              $location.path('/home');   
-            }
-  				  else{ 
-              $location.path('/login');   
-            }
-  		  	}//check
-  		  }//resolve
 
       }
     }
@@ -81,16 +62,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       'menuContent': {
         templateUrl: 'templates/shout_outs.html',
         controller: 'Shout_Outs_Ctrl',
-        resolve:{
-  			  "check":function($location){  
-  				  if(sessionStorage.getItem('loggedin_id')){ 
-              $location.path('/shout_outs');   
-            }
-  				  else{ 
-             $location.path('/login');   
-           }
-  			  }
-  		  }//resolve
+
       }
     }
   })
@@ -102,16 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers'])
         templateUrl: 'templates/bookings.html',
         controller: 'Bookings_Ctrl',
 
-        resolve:{
-  			  "check":function($location){  
-  				  if(sessionStorage.getItem('loggedin_id')){ 
-              $location.path('/bookings');   
-            }
-  				  else{ 
-             $location.path('/login');   
-           }
-  			  }
-  		  }//resolve
+
       }
     }
   })

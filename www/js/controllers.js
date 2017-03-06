@@ -1,6 +1,10 @@
 angular.module('starter.controllers', [])
 
+
 .controller('Menu_Ctrl', function($scope, $state, $ionicHistory) {
+    
+    $scope.$on('LOAD', function(){$scope.loading = true});
+    $scope.$on('UNLOAD', function(){$scope.loading = false});
 
     $scope.reloadHome = function() {
         $state.go('app.home', {}, {reload: true});
@@ -35,33 +39,44 @@ angular.module('starter.controllers', [])
 
 })//Home_Page_Ctrl
 
-.controller('Bookings_Ctrl', function($scope, $http, $state, $ionicHistory) {
+.controller('Bookings_Ctrl', function($scope, $ionicPopup, $http, $state) {
 
-    /*Function to open default email client on phone and prepare an email*/
     $scope.make_booking = function(data) {
-        $name = data.name;
-        $telephone = data.telephone;
-        $message = data.message;
+        $scope.data = data;
+        $scope.url = 'http://127.0.0.1/sendmail.php';
 
-        $http({
-            method: 'POST',
-            url: 'http://127.0.0.1/booking.php',
-            data: 'Name: ' + $name + 'Number: ' + $telephone + 'Message: ' + $message
+        
+        //console.log("Email: " + $scope.data.email + "\nNumber: " + $scope.data.telephone + "\nMessage: " + $scope.data.message);
+        $scope.$emit('LOAD');
+        $http.post($scope.url, {"email": $scope.data.email, "telephone": $scope.data.telephone, "message": $scope.data.message}).
+                success(function(data, status) {
+                    console.log("Success Returned");
+                    console.log(data);
+                   $scope.$emit('UNLOAD');
+                    //Clear The input fields
+                    $scope.data.email = "";
+                    $scope.data.telephone = "";  
+                    $scope.data.message = "";  
+                    
+                    var alertPopup = $ionicPopup.alert({
+						title: 'Enquiry Sent!',
+						template: 'You will be hearing from DJ Lee shortly!'
+					});
 
-        }).
-        success(function(data, status){
+					$state.go('app.home', {}, {reload: true});
 
-
-        }).
-        error(function(data, status){
-
-        });
-
+                }).error(function() {
+					var alertPopup = $ionicPopup.alert({
+						title: 'Oops!',
+						template: 'Something went wrong!'
+					});
+			});
     }//make_booking()
 
 })//Home_Page_Ctrl
 
 .controller('Login_Ctrl', function($scope, $http, $state, $ionicHistory, $ionicPopup) {
+
     $scope.data = {};
 
     $scope.login = function() {
@@ -79,12 +94,13 @@ angular.module('starter.controllers', [])
 					disableAnimate: true,
 					disableBack: true
 				});
+
                 $state.go('app.home', {}, {location: "replace", reload: true});
 
 			}).error(function() {
 					var alertPopup = $ionicPopup.alert({
 						title: 'Login failed!',
-						template: 'Please check your credentials!'
+						template: 'Please check your credentials and Try Again!'
 					});
 			});
     }//login()
