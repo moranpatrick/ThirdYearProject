@@ -1,0 +1,17 @@
+<ion-view view-title="RnB & Hip Hop">
+  <ion-content padding="'true'">
+
+    <div class="list card" ng-repeat="item in rnb_list">
+
+        <div class="item item-thumbnail-left">
+            <img  ng-src="{{'http://127.0.0.1/art/'+ item.genre + '/' + item.artist + '.jpg'}}">
+            <h3>{{item.title}}</h3>
+            <h4>{{item.artist}}</h4>
+        </div>
+
+    </div>
+    <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%">
+      <ion-infinite-scroll-content loadingSpinner="bubbles"> 
+    </ion-infinite-scroll>
+  </ion-content>
+</ion-view>

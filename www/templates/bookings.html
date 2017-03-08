@@ -1,8 +1,6 @@
 <ion-view view-title="Bookings">
   <ion-content padding="'true'">  
-      <div class="spinner">
-        <ion-spinner icon="android" ng-show="loading"></ion-spinner> 
-      </div>
+
       <form name="booking_form" novalidate>
         <div class="list">
           <label class="item item-input item-floating-label">
@@ -18,8 +16,10 @@
             <textarea type="text" name="message" rows="8" ng-model="data.message" placeholder="Booking Details..." required></textarea>
           </label>
           
-          <button class="button button-balanced button-block" ng-disabled="booking_form.$invalid" ng-click="make_booking(data)">Enquire</button>
-        
+          <button class="button button-balanced button-block" ng-disabled="booking_form.$invalid" ng-show="!show_button" ng-click="make_booking(data)">Enquire</button>
+          <div class="spinner">
+            <ion-spinner icon="bubbles" ng-show="loading"></ion-spinner>
+          </div>
         </div
       </form>
       <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">

@@ -4,19 +4,26 @@
       <img style="border: solid" src="img/dj.jpg" height="auto" width="100%">
     </div>
     <h3 style="text-align: Center">Please Sign In</h3>
-    <form class="list">
+    <form class="list" name="myForm">
       <div>
-        <label class="item item-input">
+        <label class="item item-input" >
           <span class="input-label">Email</span>
-          <input type="email" name="email" ng-model="data.email">
+          <input type="email" name="email" ng-model="data.email" required>
         </label>
         <label class="item item-input">
           <span class="input-label">Password</span>
-          <input type="password" name="password" ng-model="data.password">
+          <input type="password" name="password" ng-model="data.password" required>
         </label>
         <label class="item">
-          <button class="button button-block button-positive" ng-click="login()">Log in</button>
+          <button class="button button-block button-positive" ng-disabled="myForm.$invalid" ng-show="!show_button" ng-click="login()">Log in</button>
+          <div class="spinner">
+            <ion-spinner icon="bubbles" ng-show="loading"></ion-spinner>
+          </div>
         </label>
+      </div>
+      <div style="text-align: center; margin-top: 5px; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
+          <p ng-show="myForm.email.$error.required">* An email is required *</p>
+          <p ng-show="myForm.password.$error.required">* A password is required *</p>
       </div>
 
       <a href="/#/app/register" class="button button-assertive button-clear button-block ">Don't have an Account? Register here.</a>

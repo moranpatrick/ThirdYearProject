@@ -1,11 +1,9 @@
 <ion-view view-title="Home">
   <ion-content padding="'true'">
     
-    <ion-slide-box auto-play ="true" does-continue="true" show-pager="true" style="border: solid" >
-      <ion-slide class="swiper-slide swiper-slide-active" style="width:100px; height: 206px; "  ng-repeat="slide in slide_items" >
-        <div>
-          <img  ng-src="{{'img/'+ slide.p_image_id +'.jpg'}}"  ng-click="showProductInfo(slide.p_image_id)" >
-        </div>   
+    <ion-slide-box auto-play ="true" does-continue="true" show-pager="true">
+      <ion-slide class="swiper-slide swiper-slide-active" ng-repeat="slide in slide_items" >
+          <img  style="border: solid" ng-src="{{'img/'+ slide.p_image_id +'.jpg'}}"  ng-click="showProductInfo(slide.p_image_id)" >
       </ion-slide >
     </ion-slide-box>
     

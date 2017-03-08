@@ -16,14 +16,16 @@
                 </label>
             </ion-list>
 
-            <button ng-click="register(data)" ng-disabled="myForm.$invalid" class="button button-balanced button-block ">Register</button>
-            
+            <button ng-click="register(data)" ng-disabled="myForm.$invalid" ng-show="!show_button" class="button button-balanced button-block ">Register</button>
+            <div class="spinner">
+                <ion-spinner icon="bubbles" ng-show="loading"></ion-spinner>
+            </div>
             <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
                 <p ng-show="myForm.email.$error.required">* An email is required *</p>
                 <p ng-show="myForm.username.$error.required">* A username is required *</p>
                 <p ng-show="myForm.password.$error.required">* A password is required *</p>
                 <p ng-show="myForm.password.$error.minlength">* Password must be at least 6 characters *</p>
-          </div>
+            </div>
         </form>
     </ion-content>
 </ion-view>

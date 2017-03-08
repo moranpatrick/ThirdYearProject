@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -19,6 +19,9 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+
+
   });
 })
 
@@ -29,8 +32,20 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     url: '/app',
     abstract: true,
     templateUrl: 'templates/menu.html',
-    controller: 'Menu_Ctrl',
+    controller: 'App_Ctrl',
 
+  })
+
+  .state('app.login', {
+    url: '/login',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/login.html',
+        controller: 'Login_Ctrl'
+
+
+      }
+    }
   })
 
   .state('app.requests', {
@@ -78,15 +93,13 @@ angular.module('starter', ['ionic', 'starter.controllers'])
       }
     }
   })
-
-  .state('app.login', {
-    url: '/login',
+  /* States for Genres */
+  .state('app.recent_hits', {
+    url: '/recent_hits',
     views: {
       'menuContent': {
-        templateUrl: 'templates/login.html',
-        controller: 'Login_Ctrl'
-
-
+        templateUrl: 'templates/recent_hits.html',
+        controller: 'Recent_Hits_Ctrl',
       }
     }
   })
@@ -100,11 +113,12 @@ angular.module('starter', ['ionic', 'starter.controllers'])
     }
   })
 
-  .state('app.pop', {
-    url: '/pop',
+  .state('app.rnb', {
+    url: '/rnb',
     views: {
       'menuContent': {
-        templateUrl: 'templates/pop.html',
+        templateUrl: 'templates/rnb.html',
+        controller: 'R_n_B_Controller',
       }
     }
   })

@@ -16,21 +16,24 @@
  
         exit(0);
     }
+
     $postdata = file_get_contents("php://input");
 
     if (isset($postdata)) {
         $request = json_decode($postdata);
 
-        $name = $request->n;  
-        $message = $request->m; 
+        $artist = $request->a;  
+        $title = $request->t; 
+        $genre = $request->g;
 
         $conn = new mysqli("127.0.0.1", "root", "", "dj");	
 
         //allows for special characters eg. ' or "
-        $name = $conn->real_escape_string($name);
-        $message = $conn->real_escape_string($message);
+        $artist = $conn->real_escape_string($artist);
+        $title = $conn->real_escape_string($title);
+        $genre = $conn->real_escape_string($genre);
 
-        $sql = "INSERT INTO shout_outs(name, message) VALUES('$name', '$message')";
+        $sql = "INSERT INTO user_choice(artist, title, genre) VALUES('$artist', '$title', '$genre')";
 
         if ($conn->query($sql) === TRUE) {
             //successfully inserted 
@@ -44,6 +47,6 @@
         echo $outp;
         
         $conn->close();	
-
     }//if
+
 ?>
