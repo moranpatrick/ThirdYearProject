@@ -30,7 +30,7 @@
 		$password = $request->p; 
 		$password = md5($password);
 	
-		$conn = new mysqli("127.0.0.1", "root", "", "djapp");
+		$conn = new mysqli("127.0.0.1", "root", "", "dj");
 		//Check database for existing user - using username as its primary key
 		$check_username = "SELECT count(*) FROM users WHERE email = '$email'";
 		$rs = mysqli_query($conn, $check_username);

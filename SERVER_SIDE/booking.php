@@ -1,4 +1,5 @@
 <?php
+    
     if (isset($_SERVER['HTTP_ORIGIN'])) {
         header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
         header('Access-Control-Allow-Credentials: true');
@@ -16,31 +17,21 @@
  
         exit(0);
     }
-    $postdata = file_get_contents("php://input");
-
-    if (isset($postdata)) {
-    $request = json_decode($postdata);
-
-    $name = $request->n;  
-    $message = $request->m; 
-
-    $conn = new mysqli("127.0.0.1", "root", "", "dj");	
-
-    $name = $conn->real_escape_string($name);
-    $message = $conn->real_escape_string($message);
-
-    $sql = "INSERT INTO shout_outs(name, message) VALUES('$name', '$message')";
-
-    if ($conn->query($sql) === TRUE) {
-        $outp = '{"result": {"inserted": "1"} }';
-    }
-    else{
-        $outp = '{"result": {"inserted": "0"} }';
-    } 
-
-    echo $outp;
     
-    $conn->close();	
+    $message = "Name: " . $_POST["name"] . "\nNumber: " . $_POST["number"] . "\nMessage: " . $_POST["message"];
+    $message = htmlspecialchars($message);
+    $message = stripslashes($message);
 
-    }//if
+    echo "Message: " . $message.name;
+
+    $to = "patrickmoran121@gmail.com";
+    $subject = "Message from " . $_POST["name"];
+    $header = "Test Header";
+
+    ini_set( 'sendmail_from', "patrickmoran121@gmail.com"); 
+    ini_set( 'SMTP', "mail.google.com" ); 
+    ini_set( 'smtp_port', 25 );
+
+
+
 ?>

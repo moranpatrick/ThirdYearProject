@@ -1,11 +1,18 @@
 <ion-view view-title="Rock">
   <ion-content padding="'true'">
-    <div class="list">
 
+    <div class="list card" ng-repeat="item in rock_list">
 
-
+        <div class="item item-thumbnail-left">
+            <img  ng-src="{{'http://52.25.228.105/art/'+ item.genre + '/' + item.artist + '.jpg'}}">
+            <h3>{{item.title}}</h3> 
+            <h4>{{item.artist}}</h4>
+            <button class="button button-clear button-positive" ng-click="selectSong({{item}})">Vote for DJ to play</button>
+        </div>
 
     </div>
-
+    <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%">
+      <ion-infinite-scroll-content loadingSpinner="bubbles"> 
+    </ion-infinite-scroll>
   </ion-content>
 </ion-view>

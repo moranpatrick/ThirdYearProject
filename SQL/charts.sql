@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS chart_recent (
+CREATE TABLE IF NOT EXISTS charts (
 	id int unsigned NOT NULL auto_increment,
 	artist varchar(50) NOT NULL,
 	title varchar(50) NOT NULL,
@@ -6,7 +6,12 @@ CREATE TABLE IF NOT EXISTS chart_recent (
 	PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO chart_recent(artist, title, genre) VALUES
+INSERT INTO charts(artist, title, genre) VALUES
+('Ariana Grande', 'Side To Side', 'charts'),
+('Clean Bandit', 'Rockabye', 'charts'),
+('Ed Sheeran', 'Castle on the Hill', 'charts'),
+('Ed Sheeran', 'Galway Girl', 'charts'),
+('Fifth Harmony', 'Worth It', 'charts'),
 ('Fluer East', 'Sax', 'charts'),
 ('Jason Derulo', 'Want to Move', 'charts'),
 ('Justin Timberlake', 'Cant stop the feeling', 'charts'),

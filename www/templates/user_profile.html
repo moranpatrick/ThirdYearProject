@@ -1,0 +1,32 @@
+<ion-view title="Profile">
+    <ion-content padding="'true'" class="has-header">
+        <div>
+            <img style="border: solid" src="img/dj.jpg" height="auto" width="100%">
+        </div> 
+        <ion-list>
+            
+            <ion-item class="item-divider" style="text-align: center">Profile</ion-item>
+            
+            
+            <label class="item item-input">
+                <span class="input-label">Username</span>
+                <textarea placeholder="" readonly> {{" "+loggedin_username}}</textarea>
+            </label>
+            
+            <label class="item item-input">
+                <span class="input-label">Email</span>
+                <textarea placeholder="" readonly>{{" "+loggedin_email}} </textarea>
+            </label>
+            
+        </ion-list>
+        
+        <div>
+            <button ng-click="logout()" class="button button-balanced button-block  icon-right ion-log-out">Logout</button>
+            <button class="button button-calm button-block  icon-right ion-email" ng-click="contact_dev()">Contact App Developer</button>
+        </div>
+
+
+
+        
+    </ion-content>
+</ion-view>

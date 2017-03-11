@@ -1,15 +1,13 @@
 angular.module('starter.services', [])
 
-.factory('load_recent_playlist', [function(){
-    console.log("IN FACTORY");
+.factory('load_playlists', [function(){
+    
     var obj = {};
     obj.till = 0;
     
-    obj.getUrl = function(){
+    obj.getUrl = function(genre){
 		obj.till = obj.till + 5;
-		obj.str="http://127.0.0.1/load_recent.php?till=" + obj.till; // pass the value to url
-		
-        console.log("URL: ", obj.str);
+		obj.str="http://52.25.228.105/load_playlists.php?till=" + obj.till + "&genre=" + genre; // pass the value to url	
 		return obj.str;
 	};
 

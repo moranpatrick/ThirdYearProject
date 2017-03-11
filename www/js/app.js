@@ -37,6 +37,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('app.login', {
+    parent: 'app',
     url: '/login',
     views: {
       'menuContent': {
@@ -93,6 +94,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
+  
+  .state('app.user_profile', {
+    url: '/user_profile',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/user_profile.html',
+        controller: 'User_Profile_Ctrl',
+
+
+      }
+    }
+  })
   /* States for Genres */
   .state('app.recent_hits', {
     url: '/recent_hits',
@@ -109,6 +122,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'menuContent': {
         templateUrl: 'templates/rock.html',
+        controller: 'Rock_Ctrl',
       }
     }
   })
@@ -118,7 +132,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'menuContent': {
         templateUrl: 'templates/rnb.html',
-        controller: 'R_n_B_Controller',
+        controller: 'R_n_B_Ctrl',
       }
     }
   })

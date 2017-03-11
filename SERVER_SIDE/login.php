@@ -9,8 +9,7 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 			
             $conn = new mysqli("127.0.0.1", "root", "", "dj");						
 			
-            $email=$_GET["e"];		
-            $password=$_GET["p"];				
+            $email=$_GET["e"];		$password=$_GET["p"];				
 			
 			// To protect MySQL injection for Security purpose		
 			$email = stripslashes($email);		

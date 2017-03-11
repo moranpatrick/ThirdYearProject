@@ -7,12 +7,14 @@
 
     $till = 10;
 
-    if(isset($_GET["till"]) && !empty($_GET["till"]) ){
+    if(isset($_GET["till"]) && !empty($_GET["till"]) && isset($_GET["genre"]) && !empty($_GET["genre"])){
 		$till = $_GET["till"];
 		$till = $conn->real_escape_string($till);
+        $genre = $_GET["genre"];
+        $genre = $conn->real_escape_string($genre);
 	}
 
-    $query="SELECT artist, title, genre FROM chart_recent where id <= $till";
+    $query="SELECT artist, title, genre FROM $genre where id <= $till";
 
     $result = $conn->query($query);
     $outp = "";
@@ -24,9 +26,8 @@
 	    $outp .= '"genre":"'. $rs["genre"]     . '"}';
     }   
 
-
     // Adding has more
-    $result = $conn->query("SELECT count(*) as total from chart_recent");
+    $result = $conn->query("SELECT count(*) as total from $genre");
     $data = $result->fetch_array(MYSQLI_ASSOC);
     $total = $data['total'];
 
