@@ -12,4 +12,16 @@ angular.module('starter.services', [])
 	};
 
     return obj;
-}]);
+}])
+
+.factory('load_admin', function($http) {
+
+        return {
+            get : function() {
+                return $http.get('http://127.0.0.1/load_admin.php');
+            }
+
+        }
+});
+
+

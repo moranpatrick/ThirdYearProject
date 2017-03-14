@@ -1,6 +1,7 @@
 angular.module('starter.controllers', [])
 
 .controller('App_Ctrl', function($scope, $state, $ionicHistory, $ionicPopup, $http) {
+
     /* Ion Spinner Handling */
     $scope.$on('LOAD', function(){$scope.loading = true});
     $scope.$on('UNLOAD', function(){$scope.loading = false});
@@ -47,6 +48,17 @@ angular.module('starter.controllers', [])
         });  
 
     };//selectSong()
+
+    //Reload Home
+    $scope.reloadHome = function(){
+        console.log("home");
+
+        $state.go('app.home', {}, {reload: true});
+        $ionicHistory.nextViewOptions({
+            disableBack: true,
+            reload: true
+        });
+    };
 })//App_Ctrl
 
 .controller('Home_Page_Ctrl', function($scope, $ionicModal, $timeout, $ionicHistory, $state) {
@@ -130,15 +142,25 @@ angular.module('starter.controllers', [])
 				sessionStorage.setItem('loggedin_username', $scope.user_details.username);
 				sessionStorage.setItem('loggedin_email', $scope.user_details.email);
                 
+                //console.log($scope.user_details.username);
                 
 				$ionicHistory.nextViewOptions({
 					disableBack: true,
                     reload: true
 				});
+                
+                if($scope.user_details.email == "djgarrylee@gmail.com"){
+                    console.log("Admin User Logged in");
+                    window.location.href = "/#/admin_home";
+                    location.reload();
 
-                $state.go('app.home', {}, {location: 'replace', reload: true});
-                //window.location.href = "/#/app/home";
-                location.reload();
+                }
+                else{
+                    console.log("Normal User Logged in");
+                    window.location.href = "/#/app/home";
+                    location.reload();
+
+                }
 
 			}).error(function() {
                     $scope.$emit('UNLOAD');
@@ -353,6 +375,7 @@ angular.module('starter.controllers', [])
         $http.get(str).success(function (response){
             $scope.rock_list = response.records;
 			$scope.hasmore = response.has_more;	//"has_more": 0	or number of items left
+            console.log("Has More: " + $scope.hasmore);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 		}).error(function() {
@@ -368,6 +391,17 @@ angular.module('starter.controllers', [])
             $scope.noMoreItemsAvailable = true;
         }
 	};
+})//Rock_Controller
+
+.controller('Admin_Home_Ctrl', function(load_admin, $scope, $http) {
+    load_admin.get()
+    .success(function(response) {
+        $scope.tot1 = response.shout_outs;
+        $scope.tot2 = response.songRequests;
+    }).error(function() {
+        console.log("Error!");
+    });
+
 });//Rock_Controller
 
 

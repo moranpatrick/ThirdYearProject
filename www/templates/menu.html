@@ -8,8 +8,8 @@
       <ion-nav-buttons side="right">
         <!--<button ng-click="goProfile()" class="button button-icon ion-android-person" side="right"><button>-->
         <a href="#/app/user_profile" class="button button-icon ion-android-person" side="right"></a>
-        <!--<button ng-click="reloadHome()" class="button button-icon ion-android-home" side="right"></button>-->
-        <a href="#/app/home" class="button button-icon ion-android-home" side="right"></a>
+        <button ng-click="reloadHome()" class="button button-icon ion-android-home" side="right"></button>
+         <!--<a href="#/app/home" class="button button-icon ion-android-home" side="right"></a>-->
       </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view name="menuContent"></ion-nav-view>
@@ -22,13 +22,16 @@
     <ion-content>
       <ion-list style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">
         <ion-item menu-close href="#/app/requests">
-          Request A Song
+          <i class="ion-music-note"> Request A Song</i>
         </ion-item>
         <ion-item menu-close href="#/app/shout_outs">
-          Send a Shout out
+          <i class="ion-paper-airplane"> Send a Shout Out</i>
         </ion-item>
         <ion-item menu-close href="#/app/bookings">
-          Bookings
+          <i class="ion-compose"> Bookings</i>
+        </ion-item>
+        <ion-item ng-hide="!menuItem" menu-close href="#/app/bookings">
+          <i class="ion-compose"> View Messages</i>
         </ion-item>
       </ion-list>
     </ion-content>

@@ -34,6 +34,7 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 	
 			}	
 			
+			
 			$outp ='{"records":'.$outp.'}';		
 			
             $conn->close();		
