@@ -149,6 +149,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       controller: 'Admin_Home_Ctrl'
   })
 
+  .state('admin_shout_outs', {
+      url: '/admin_shout_outs',
+      templateUrl: 'templates/admin_shout_outs.html',
+      controller: 'Admin_ShoutOuts_Ctrl'
+  })
+
+  .state('admin_songRequests', {
+      url: '/admin_songRequests',
+      templateUrl: 'templates/admin_songRequests.html',
+      controller: 'Admin_SongRequests_Ctrl'
+  })
+
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/login');

@@ -402,7 +402,29 @@ angular.module('starter.controllers', [])
         console.log("Error!");
     });
 
-});//Rock_Controller
+})//Rock_Controller
+
+.controller('Admin_ShoutOuts_Ctrl', function(load_admin, $scope, $http) {
+    load_admin.get()
+    .success(function(response) {
+        $scope.shout_outs = response.data;
+        
+    }).error(function() {
+        console.log("Error!");
+    });
+
+})//Shout_Outs_Ctrl
+
+.controller('Admin_SongRequests_Ctrl', function(load_admin, $scope, $http) {
+    load_admin.get()
+    .success(function(response) {
+       $scope.song_requests = response.songs;
+        
+    }).error(function() {
+        console.log("Error!");
+    });
+
+});//songRequestsCtrl
 
 
 

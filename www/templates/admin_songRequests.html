@@ -1,0 +1,16 @@
+<ion-view view-title="Song Requests">
+  <ion-content padding="'true'">
+    <div class="list card" ng-repeat="item in song_requests" >
+        <div class="item item-divider">
+            {{item.artist}}
+        </div>
+        <div class="item item-text-wrap">
+            {{item.title}}
+        </div>
+        <div class="item item-divider">
+            {{item.genre}}
+        </div>
+        <br />
+    </div>
+  </ion-content>
+</ion-view>

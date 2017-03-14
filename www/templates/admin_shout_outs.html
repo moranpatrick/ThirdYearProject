@@ -1,0 +1,12 @@
+<ion-view view-title="Shout Outs">
+  <ion-content padding="'true'">
+    <div class="list card" ng-repeat="item in shout_outs" >
+        <div class="item item-divider">
+            {{item.name}}
+        </div>
+        <div class="item item-text-wrap">
+            {{item.message}}
+        </div>
+    </div>
+  </ion-content>
+</ion-view>
