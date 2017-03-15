@@ -131,6 +131,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       }
     }
   })
+  
+  .state('app.70s80s90s', {
+    url: '/70s80s90s',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/70_80_90.html',
+        controller: '70s_Ctrl',
+      }
+    }
+  })
 
   .state('app.register', {
     url: '/register',

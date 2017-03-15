@@ -390,6 +390,37 @@ angular.module('starter.controllers', [])
 	};
 })//Rock_Controller
 
+.controller('70s_Ctrl', function($scope, $http, load_playlists, $ionicPopup, $state, $timeout) {
+    $scope.noMoreItemsAvailable = false; // lazy load list   
+	$scope.$on('$stateChangeSuccess', function() {
+		$scope.loadMore();  //Added Infine Scroll
+	});
+	 
+	// Loadmore() called inorder to load the list 
+	$scope.loadMore = function() {
+		str = load_playlists.getUrl("_70_80_90");
+			
+        $http.get(str).success(function (response){
+            $scope.seventies_list = response.records;
+			$scope.hasmore = response.has_more;	//"has_more": 0	or number of items left
+            console.log("Has More: " + $scope.hasmore);
+			$scope.$broadcast('scroll.infiniteScrollComplete');
+
+		}).error(function() {
+            var alertPopup = $ionicPopup.alert({
+				title: 'Error Loading Data!',
+				template: 'Something went wrong!'
+			});
+            $state.go('app.home', {}, {reload: false});
+		});
+			
+        //more data can be loaded or not
+        if ( $scope.hasmore == 0 ) {
+            $scope.noMoreItemsAvailable = true;
+        }
+	};
+})//70s_Ctrl
+
 .controller('Admin_Home_Ctrl', function(load_admin, $scope, $http) {
     load_admin.get()
     .success(function(response) {

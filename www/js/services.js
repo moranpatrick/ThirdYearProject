@@ -18,7 +18,7 @@ angular.module('starter.services', [])
 
         return {
             get : function() {
-                return $http.get('http://127.0.0.1/load_admin.php');
+                return $http.get('http://52.25.228.105/load_admin.php');
             }
 
         }
@@ -28,7 +28,7 @@ angular.module('starter.services', [])
 
         return {
             get : function() {
-                return $http.get('http://127.0.0.1/load_admin_requests.php');
+                return $http.get('http://52.25.228.105/load_admin_requests.php');
             }
 
         }
