@@ -5,7 +5,20 @@
 
     $conn = new mysqli("127.0.0.1", "root", "", "dj");
 
-    // Adding has more
+    $query = "SELECT name, message FROM shout_outs";
+
+    $result = $conn->query($query);
+    $outp = "";
+    
+    while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+        if ($outp != "") {
+            $outp .= ",";
+        }
+        $outp .= '{"name":"'  . $rs["name"] . '",';
+	    $outp .= '"message":"'. $rs["message"]     . '"}';
+    }
+    
+
     $result = $conn->query("SELECT count(*) as total from shout_outs");
     $data = $result->fetch_array(MYSQLI_ASSOC);
     $shout_outs = $data['total'];
@@ -14,8 +27,7 @@
     $data = $result->fetch_array(MYSQLI_ASSOC);
     $songRequests = $data['total'];
                                  
-    $outp = '{"shout_outs":'.$shout_outs.',"songRequests":'.$songRequests.'}';
-    //$outp ='{"has_more":'.$has_more.',"records":['.$outp.']}';
+    $outp = '{"shout_outs":'.$shout_outs.',"songRequests":'.$songRequests.',"data":['.$outp.']}';
 
     $conn->close();
     echo $outp;

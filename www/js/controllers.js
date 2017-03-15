@@ -150,18 +150,15 @@ angular.module('starter.controllers', [])
 				});
                 
                 if($scope.user_details.email == "djgarrylee@gmail.com"){
-                    console.log("Admin User Logged in");
-                    window.location.href = "/#/admin_home";
+                    //Admin User Logged in
+                    $state.go('admin_home', {}, {reload: true});
                     location.reload();
-
                 }
                 else{
-                    console.log("Normal User Logged in");
-                    window.location.href = "/#/app/home";
+                    //Normal User Logged in
+                    $state.go('app.home', {}, {reload: true});
                     location.reload();
-
                 }
-
 			}).error(function() {
                     $scope.$emit('UNLOAD');
                     $scope.$emit('BUT_ON');
@@ -415,10 +412,10 @@ angular.module('starter.controllers', [])
 
 })//Shout_Outs_Ctrl
 
-.controller('Admin_SongRequests_Ctrl', function(load_admin, $scope, $http) {
-    load_admin.get()
+.controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http) {
+    load_admin_songRequests.get()
     .success(function(response) {
-       $scope.song_requests = response.songs;
+       $scope.song_requests = response.song_requests;
         
     }).error(function() {
         console.log("Error!");

@@ -22,6 +22,16 @@ angular.module('starter.services', [])
             }
 
         }
+})
+
+.factory('load_admin_songRequests', function($http) {
+
+        return {
+            get : function() {
+                return $http.get('http://127.0.0.1/load_admin_requests.php');
+            }
+
+        }
 });
 
 
