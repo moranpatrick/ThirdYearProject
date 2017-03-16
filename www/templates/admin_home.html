@@ -1,18 +1,20 @@
 <ion-view view-title="Admin Home">
   <ion-content padding="'true'">
-      <ion-side-menus>
+
 
     <div class="list">
-        <a class="item item-icon-left" href="#/admin_shout_outs">
+        <a class="item item-icon-left" href="#/app/admin_shout_outs">
             <i class="icon ion-email"></i>
             Total Shout Outs
             <span class="badge badge-assertive">{{tot1}}</span>
         </a>
-        <a class="item item-icon-left" href="#/admin_songRequests">
+        <a class="item item-icon-left" href="#/app/admin_songRequests">
             <i class="icon ion-mic-b"></i>
             Total Song Requests
             <span class="badge badge-assertive">{{tot2}}</span>
         </a>
+
+        <button ng-click="admin_logout()" class="button button-balanced button-block  icon-right ion-log-out">Admin Logout</button>
     </div>
 
   </ion-content>

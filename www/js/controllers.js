@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
 
     //Reload Home
     $scope.reloadHome = function(){
-        console.log("home");
+        console.log("home app ctrl");
 
         $state.go('app.home', {}, {reload: true});
         $ionicHistory.nextViewOptions({
@@ -151,7 +151,7 @@ angular.module('starter.controllers', [])
                 
                 if($scope.user_details.email == "djgarrylee@gmail.com"){
                     //Admin User Logged in
-                    $state.go('admin_home', {}, {reload: true});
+                    $state.go('app.admin_home', {}, {reload: true});
                     location.reload();
                 }
                 else{
@@ -421,7 +421,21 @@ angular.module('starter.controllers', [])
 	};
 })//70s_Ctrl
 
-.controller('Admin_Home_Ctrl', function(load_admin, $scope, $http) {
+.controller('Admin_Home_Ctrl', function(load_admin, $scope, $http, $ionicHistory, $state) {    
+    $scope.admin_logout = function(){
+        console.log("logging out");
+        delete sessionStorage.loggedin_username;
+        delete sessionStorage.loggedin_email;
+
+        $ionicHistory.clearCache();
+        
+        $ionicHistory.nextViewOptions({
+            //disableAnimate: true,
+            disableBack: true
+        });
+        $state.go('app.login', {}, {location: "replace", reload: true});
+    };
+
     load_admin.get()
     .success(function(response) {
         $scope.tot1 = response.shout_outs;
@@ -430,7 +444,7 @@ angular.module('starter.controllers', [])
         console.log("Error!");
     });
 
-})//Rock_Controller
+})//Admin_Home_Ctrl
 
 .controller('Admin_ShoutOuts_Ctrl', function(load_admin, $scope, $http) {
     load_admin.get()
@@ -441,7 +455,7 @@ angular.module('starter.controllers', [])
         console.log("Error!");
     });
 
-})//Shout_Outs_Ctrl
+})//admin_Shout_Outs_Ctrl
 
 .controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http) {
     load_admin_songRequests.get()
@@ -452,7 +466,7 @@ angular.module('starter.controllers', [])
         console.log("Error!");
     });
 
-});//songRequestsCtrl
+});//admin_songRequestsCtrl
 
 
 

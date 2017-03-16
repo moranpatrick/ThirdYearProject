@@ -1,6 +1,11 @@
 <ion-view view-title="Home">
-  <ion-content padding="'true'">
-    
+  
+  <ion-nav-buttons side="right">
+    <a href="#/app/user_profile" class="button button-icon ion-android-person" side="right"></a>
+    <button ng-click="reloadHome()" class="button button-icon ion-android-home" side="right"></button>
+  </ion-nav-buttons>
+  
+  <ion-content padding="'true'">    
     <ion-slide-box auto-play ="true" does-continue="true" show-pager="true">
       <ion-slide class="swiper-slide swiper-slide-active" ng-repeat="slide in slide_items" >
           <img  style="border: solid" ng-src="{{'img/'+ slide.p_image_id +'.jpg'}}"  ng-click="showProductInfo(slide.p_image_id)" >
@@ -15,4 +20,5 @@
       <h4>t: <a href="tel:+353860738121">0831064591</a></h4>
     </div>
   </ion-content>
+  
 </ion-view>
