@@ -27,8 +27,11 @@
 		
 		$email = $request->e;  
 		$username = $request->u; 		
-		$password = $request->p; 
-		$password = md5($password);
+		$password = $request->p;
+
+		$salt = sha1(md5($password));
+		$password = md5($password.$salt); 
+		//$password = md5($password);
 	
 		$conn = new mysqli("127.0.0.1", "root", "", "dj");
 		//Check database for existing user - using username as its primary key

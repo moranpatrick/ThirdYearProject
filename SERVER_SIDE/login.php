@@ -16,7 +16,9 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 			$password = stripslashes($password);		
 			$email = $conn->real_escape_string($email);		
 			$password = $conn->real_escape_string($password);		
-			$password = md5($password);		
+			//$password = md5($password);	
+			$salt = sha1(md5($password));
+			$password = md5($password.$salt); 	
 			
 			$query = "SELECT email, username, password FROM users where email like '".$email."' and password like '".$password."'";	
 					
@@ -33,7 +35,6 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 				$outp .= '"username":"'   . $rs["username"] . '"}';			
 	
 			}	
-			
 			
 			$outp ='{"records":'.$outp.'}';		
 			

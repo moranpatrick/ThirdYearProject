@@ -2,7 +2,6 @@
     <h1 class="title" style="text-align: center">Admin Menu</h1> 
 </ion-header-bar>
 
-
 <ion-content>
     <ion-list style="font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;">
         <ion-item menu-close href="#/app/admin_shout_outs">
@@ -10,6 +9,9 @@
         </ion-item>
         <ion-item menu-close href="#/app/admin_songRequests">
             <i class="ion-mic-b"> View Song Requests</i>
+        </ion-item>
+        <ion-item menu-close>
+            <button ng-click="admin_logout()" class="button button-balanced button-block  icon-right ion-log-out">Admin Logout</button>
         </ion-item>
     </ion-list>
 </ion-content>

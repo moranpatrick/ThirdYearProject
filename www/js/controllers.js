@@ -59,6 +59,22 @@ angular.module('starter.controllers', [])
             reload: true
         });
     };
+
+    $scope.admin_logout = function(){
+        console.log("logging out");
+        delete sessionStorage.loggedin_username;
+        delete sessionStorage.loggedin_email;
+
+        $ionicHistory.clearCache();
+        
+        $ionicHistory.nextViewOptions({
+            //disableAnimate: true,
+            disableBack: true
+        });
+        $state.go('app.login', {}, {location: "replace", reload: true});
+    };
+
+
 })//App_Ctrl
 
 .controller('Home_Page_Ctrl', function($scope, $ionicModal, $timeout, $ionicHistory, $state) {
@@ -131,8 +147,9 @@ angular.module('starter.controllers', [])
     $scope.login = function() {
         $scope.$emit('BUT_OFF');
         $scope.$emit('LOAD');
-
-        str="http://52.25.228.105/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
+        
+        //str = "http://127.0.0.1/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
+        str = "http://52.25.228.105/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
         $http.get(str)
 			.success(function (response){
                 $scope.$emit('UNLOAD');
@@ -422,6 +439,17 @@ angular.module('starter.controllers', [])
 })//70s_Ctrl
 
 .controller('Admin_Home_Ctrl', function(load_admin, $scope, $http, $ionicHistory, $state) {    
+    console.log("in admin ctrl");
+    str = load_admin.getUrl();
+			
+    $http.get(str).success(function (response){
+        console.log("Success");
+        $scope.tot1 = response.new_shoutOuts;
+
+    }).error(function() {
+        console.log("Error");
+    });
+    /*
     $scope.admin_logout = function(){
         console.log("logging out");
         delete sessionStorage.loggedin_username;
@@ -435,35 +463,33 @@ angular.module('starter.controllers', [])
         });
         $state.go('app.login', {}, {location: "replace", reload: true});
     };
-
-    load_admin.get()
-    .success(function(response) {
-        $scope.tot1 = response.shout_outs;
-        $scope.tot2 = response.songRequests;
-    }).error(function() {
-        console.log("Error!");
-    });
-
+*/
 })//Admin_Home_Ctrl
 
-.controller('Admin_ShoutOuts_Ctrl', function(load_admin, $scope, $http) {
-    load_admin.get()
+.controller('Admin_ShoutOuts_Ctrl', function(load_admin_shoutOuts, $scope, $http, $filter) {
+    $scope.$emit('LOAD');
+    load_admin_shoutOuts.get()
     .success(function(response) {
-        $scope.shout_outs = response.data;
-        
+        $scope.shout_outs = response.shout_outs;
+        //console.log($scope.shout_outs[0].inserted);
+
+        $scope.$emit('UNLOAD');
     }).error(function() {
         console.log("Error!");
+        $scope.$emit('UNLOAD');
     });
 
 })//admin_Shout_Outs_Ctrl
 
 .controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http) {
+    $scope.$emit('LOAD');
     load_admin_songRequests.get()
     .success(function(response) {
-       $scope.song_requests = response.song_requests;
-        
+        $scope.song_requests = response.song_requests;
+        $scope.$emit('UNLOAD');
     }).error(function() {
         console.log("Error!");
+        $scope.$emit('UNLOAD');
     });
 
 });//admin_songRequestsCtrl
