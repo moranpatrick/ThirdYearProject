@@ -3,6 +3,7 @@
         <div>
             <img style="border: solid" src="img/dj.jpg" height="auto" width="100%">
         </div>
+        
         <form name="myForm" class="list" novalidate>
             <h3 style="text-align: center; margin-top: 10px">Register</h3>
             <ion-list>
@@ -18,18 +19,29 @@
                     <span class="input-label">Password</span>
                     <input type="password" name="password" ng-minlength="6" ng-model="data.password" required>
                 </label>
+                <label class="item item-input">
+                    <span class="input-label">Confirm Password</span>
+                    <input type="password" name="password_confirmation" ng-model="data.passwordConf" confirm-pwd="data.password" required>
+                    <div class="form-errors" ng-messages="myForm.password_confirmation.$error" ng-if='myForm.password_confirmation.$touched'>
+                        <span class="form-error" ng-message="password">Password different</span>
+                    </div>
+                </label>
             </ion-list>
 
             <button ng-click="register(data)" ng-disabled="myForm.$invalid" ng-show="!show_button" class="button button-balanced button-block ">Register</button>
             <div class="spinner">
                 <ion-spinner icon="bubbles" ng-show="loading"></ion-spinner>
             </div>
-            <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
+            
+            <!-- password validation http://stackoverflow.com/questions/31671221/angular-ng-messages-how-to-check-password-confirmation-->
+            <div class="errors">
                 <p ng-show="myForm.email.$error.required">* An email is required *</p>
                 <p ng-show="myForm.username.$error.required">* A username is required *</p>
                 <p ng-show="myForm.password.$error.required">* A password is required *</p>
                 <p ng-show="myForm.password.$error.minlength">* Password must be at least 6 characters *</p>
             </div>
+ 
         </form>
+
     </ion-content>
 </ion-view>

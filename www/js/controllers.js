@@ -59,22 +59,6 @@ angular.module('starter.controllers', [])
             reload: true
         });
     };
-
-    $scope.admin_logout = function(){
-        console.log("logging out");
-        delete sessionStorage.loggedin_username;
-        delete sessionStorage.loggedin_email;
-
-        $ionicHistory.clearCache();
-        
-        $ionicHistory.nextViewOptions({
-            //disableAnimate: true,
-            disableBack: true
-        });
-        $state.go('app.login', {}, {location: "replace", reload: true});
-    };
-
-
 })//App_Ctrl
 
 .controller('Home_Page_Ctrl', function($scope, $ionicModal, $timeout, $ionicHistory, $state) {
@@ -443,13 +427,13 @@ angular.module('starter.controllers', [])
     str = load_admin.getUrl();
 			
     $http.get(str).success(function (response){
-        console.log("Success");
-        $scope.tot1 = response.new_shoutOuts;
-
+        console.log("Success Admin Home");
+        $scope.tot1 = response.shout_outs;
+        $scope.tot2 = response.songRequests;
     }).error(function() {
-        console.log("Error");
-    });
-    /*
+        console.log("Error Retrieving Admin Home Totals");
+    })
+
     $scope.admin_logout = function(){
         console.log("logging out");
         delete sessionStorage.loggedin_username;
@@ -458,15 +442,14 @@ angular.module('starter.controllers', [])
         $ionicHistory.clearCache();
         
         $ionicHistory.nextViewOptions({
-            //disableAnimate: true,
             disableBack: true
         });
-        $state.go('app.login', {}, {location: "replace", reload: true});
+        $state.go('app.login', {}, {reload: true});
     };
-*/
+
 })//Admin_Home_Ctrl
 
-.controller('Admin_ShoutOuts_Ctrl', function(load_admin_shoutOuts, $scope, $http, $filter) {
+.controller('Admin_ShoutOuts_Ctrl', function(load_admin_shoutOuts, $scope, $http, $filter, $state, $ionicHistory) {
     $scope.$emit('LOAD');
     load_admin_shoutOuts.get()
     .success(function(response) {
@@ -475,22 +458,39 @@ angular.module('starter.controllers', [])
 
         $scope.$emit('UNLOAD');
     }).error(function() {
-        console.log("Error!");
+        console.log("Error Retrieving Admin Shout Outs!");
         $scope.$emit('UNLOAD');
     });
 
+    $scope.reloadAdminHome = function(){
+        $state.go('app.admin_home', {}, {reload: true});
+        $ionicHistory.nextViewOptions({
+            disableBack: true,
+            reload: true
+        });
+    };
+
+
 })//admin_Shout_Outs_Ctrl
 
-.controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http) {
+.controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http, $state, $ionicHistory) {
     $scope.$emit('LOAD');
     load_admin_songRequests.get()
     .success(function(response) {
         $scope.song_requests = response.song_requests;
         $scope.$emit('UNLOAD');
     }).error(function() {
-        console.log("Error!");
+        console.log("Error - Retrieving Song Requests!");
         $scope.$emit('UNLOAD');
     });
+
+    $scope.reloadAdminHome = function(){
+        $state.go('app.admin_home', {}, {reload: true});
+        $ionicHistory.nextViewOptions({
+            disableBack: true,
+            reload: true
+        });
+    };
 
 });//admin_songRequestsCtrl
 

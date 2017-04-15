@@ -4,7 +4,7 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.directives'])
 
 .run(function($ionicPlatform, $ionicPopup) {
   $ionicPlatform.ready(function() {
@@ -190,7 +190,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'menuContent':{
           templateUrl: 'templates/menu_admin.html',
-          controller: 'Admin_ShoutOuts_Ctrl'
+          controller: 'Admin_Home_Ctrl'
         },
         'appContent': {
           templateUrl: 'templates/admin_shout_outs.html',
@@ -204,7 +204,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       views: {
         'menuContent':{
           templateUrl: 'templates/menu_admin.html',
-          controller: 'Admin_SongRequests_Ctrl'
+          controller: 'Admin_Home_Ctrl'
         },
         'appContent': {
           templateUrl: 'templates/admin_songRequests.html',

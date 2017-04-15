@@ -15,16 +15,11 @@ angular.module('starter.services', [])
 }])
 
 .factory('load_admin', function($http) {
-    var date;
-    date = new Date().toISOString().slice(0, 19).replace('T', ' ');
-    console.log("In admin home factory: " + date);
-
     var obj = {};
-    obj.date = date;
 
     obj.getUrl = function(){
-		obj.str="http://127.0.0.1/load_admin.php?date=" + obj.date; // pass the value to url	
-		console.log(obj.str);
+		//obj.str="http://127.0.0.1/load_admin.php";
+        obj.str="http://52.25.228.105/load_admin.php";
         return obj.str;
 	};
     return obj;
