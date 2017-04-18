@@ -1,26 +1,37 @@
 angular.module('starter.directives', []);
 
 angular.module('starter.directives')
-.directive('confirmPwd', function($interpolate, $parse) {
-    console.log("In directive");
-  return {
-    require: 'ngModel',
-    link: function(scope, elem, attr, ngModelCtrl) {
 
-      var pwdToMatch = $parse(attr.confirmPwd);
-      var pwdFn = $interpolate(attr.confirmPwd)(scope);
+.directive("passwordVerify", function() {
+   return {
+      require: "ngModel",
+      scope: {
+        passwordVerify: '='
+      },
+      link: function(scope, element, attrs, ctrl) {
+        scope.$watch(function() {
+            var combined;
 
-      scope.$watch(pwdFn, function(newVal) {
-          ngModelCtrl.$setValidity('password', ngModelCtrl.$viewValue == newVal);
-      })
-
-      ngModelCtrl.$validators.password = function(modelValue, viewValue) {
-        var value = modelValue || viewValue;
-        return value == pwdToMatch(scope);
-      };
-
-    }
-  }
+            if (scope.passwordVerify || ctrl.$viewValue) {
+               combined = scope.passwordVerify + '_' + ctrl.$viewValue; 
+            }                    
+            return combined;
+        }, function(value) {
+            if (value) {
+                ctrl.$parsers.unshift(function(viewValue) {
+                    var origin = scope.passwordVerify;
+                    if (origin !== viewValue) {
+                        ctrl.$setValidity("passwordVerify", false);
+                        return undefined;
+                    } else {
+                        ctrl.$setValidity("passwordVerify", true);
+                        return viewValue;
+                    }
+                });
+            }
+        });
+     }
+   };
 });
 
 
