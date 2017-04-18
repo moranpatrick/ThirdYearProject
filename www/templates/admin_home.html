@@ -1,6 +1,12 @@
 <ion-view view-title="Admin Home">
   <ion-content padding="'true'">
-      <h1>Admin Home</h1>
+      <ion-refresher
+        pulling-text="Refresh..."
+        on-refresh="reloadAdminHome()">
+    </ion-refresher>
+    <div>
+        <img style="border: solid" src="img/dj.jpg" height="auto" width="100%">
+    </div>
     <br />
     <div class="list">
         <a class="item item-icon-left" href="#/app/admin_shout_outs">

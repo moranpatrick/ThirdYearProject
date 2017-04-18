@@ -397,7 +397,7 @@ angular.module('starter.controllers', [])
 		$scope.loadMore();  //Added Infine Scroll
 	});
 	 
-	// Loadmore() called inorder to load the list 
+	// Loadmore() called in order to load the list 
 	$scope.loadMore = function() {
 		str = load_playlists.getUrl("_70_80_90");
 			
@@ -423,24 +423,32 @@ angular.module('starter.controllers', [])
 })//70s_Ctrl
 
 .controller('Admin_Home_Ctrl', function(load_admin, $scope, $http, $ionicHistory, $state) {    
-    console.log("in admin ctrl");
-    str = load_admin.getUrl();
+
+	$scope.$on('$stateChangeSuccess', function() {
+		console.log("Reloading Admin Home();");
+        $scope.reloadAdminHome();  //Added Infine Scroll
+	});
+
+    $scope.reloadAdminHome = function(){
+        str = load_admin.getUrl();
 			
-    $http.get(str).success(function (response){
-        console.log("Success Admin Home");
-        $scope.tot1 = response.shout_outs;
-        $scope.tot2 = response.songRequests;
-    }).error(function() {
-        console.log("Error Retrieving Admin Home Totals");
-    })
+        $http.get(str).success(function (response){
+            console.log("Success Admin Home");
+            $scope.tot1 = response.shout_outs;
+            $scope.tot2 = response.songRequests;
+            $scope.$broadcast('scroll.refreshComplete');
+        }).error(function() {
+            console.log("Error Retrieving Admin Home Totals");
+            $scope.$broadcast('scroll.refreshComplete');
+        })
+    }
 
     $scope.admin_logout = function(){
-        console.log("logging out");
+        console.log("logging out - deleting session storage variables");
         delete sessionStorage.loggedin_username;
         delete sessionStorage.loggedin_email;
 
-        $ionicHistory.clearCache();
-        
+        $ionicHistory.clearCache();       
         $ionicHistory.nextViewOptions({
             disableBack: true
         });
@@ -449,18 +457,23 @@ angular.module('starter.controllers', [])
 
 })//Admin_Home_Ctrl
 
-.controller('Admin_ShoutOuts_Ctrl', function(load_admin_shoutOuts, $scope, $http, $filter, $state, $ionicHistory) {
-    $scope.$emit('LOAD');
-    load_admin_shoutOuts.get()
-    .success(function(response) {
-        $scope.shout_outs = response.shout_outs;
-        //console.log($scope.shout_outs[0].inserted);
-
-        $scope.$emit('UNLOAD');
-    }).error(function() {
-        console.log("Error Retrieving Admin Shout Outs!");
-        $scope.$emit('UNLOAD');
-    });
+.controller('Admin_ShoutOuts_Ctrl', function(load_admin_shoutOuts, $scope, $http, $filter, $state, $ionicHistory, $ionicListDelegate, $ionicPopup, $window) {
+    //Load Shout Outs Every Time The state changes
+    $scope.$on('$stateChangeSuccess', function() {
+        $scope.loadShoutOuts();  
+	});
+    
+    $scope.loadShoutOuts = function(){
+        $scope.$emit('LOAD');
+        load_admin_shoutOuts.get()
+        .success(function(response) {
+            $scope.shout_outs = response.shout_outs;
+            $scope.$emit('UNLOAD');
+        }).error(function() {
+            console.log("Error Retrieving Admin Shout Outs!");
+            $scope.$emit('UNLOAD');
+        });
+    };
 
     $scope.reloadAdminHome = function(){
         $state.go('app.admin_home', {}, {reload: true});
@@ -470,7 +483,45 @@ angular.module('starter.controllers', [])
         });
     };
 
+    $scope.deleteShoutOut = function(item){
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Delete Shout Out',
+            template: 'Are you sure you want to delete this Shout Out From ' + item.name + '?'
+        });
 
+        confirmPopup.then(function(res) {
+           if(res) {
+                $scope.$emit('LOAD');
+                var link = 'http://52.25.228.105/deleteShoutOut.php';
+                
+                $http.post(link, {n : item.name, i : item.inserted}).then(function (res){
+                    $scope.response = res.data.result; 
+
+                    //Evaluate Response
+                    if($scope.response.deleted == "1"){
+                        $scope.title = "Done!";
+                        $scope.message = "Shout Out Deleted!";
+                        $window.location.reload(true);
+                    }
+                    else if($scope.response.deleted == "0"){
+                        $scope.title = "OOPS!";
+                        $scope.message = "Something Went Wrong - Please Try again!";
+                    }
+                        
+                    $scope.$emit('UNLOAD');
+                    //Show alert to the user - success or failure
+                    var alertPopup = $ionicPopup.alert({
+                        title: $scope.title,
+                        template: $scope.message
+                    }); 
+                });
+                
+                $ionicListDelegate.closeOptionButtons();            
+            } else {
+                $ionicListDelegate.closeOptionButtons();
+            }
+        });  
+    }//Delete A ShoutOut
 })//admin_Shout_Outs_Ctrl
 
 .controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http, $state, $ionicHistory) {
