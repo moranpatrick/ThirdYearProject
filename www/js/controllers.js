@@ -426,10 +426,10 @@ angular.module('starter.controllers', [])
 
 	$scope.$on('$stateChangeSuccess', function() {
 		console.log("Reloading Admin Home();");
-        $scope.reloadAdminHome();  //Added Infine Scroll
+        $scope.reloadAdminTotals();  //Added Infine Scroll
 	});
 
-    $scope.reloadAdminHome = function(){
+    $scope.reloadAdminTotals = function(){
         str = load_admin.getUrl();
 			
         $http.get(str).success(function (response){
@@ -468,6 +468,12 @@ angular.module('starter.controllers', [])
         load_admin_shoutOuts.get()
         .success(function(response) {
             $scope.shout_outs = response.shout_outs;
+            console.log($scope.shout_outs[0].id);
+            /*Convert All SQL TimeStamp Dates to a format like ISO 8601 so angular can filter the date nicely
+            Code for this: http://stackoverflow.com/questions/20709910/unable-to-format-default-mysql-datetime#answer-20710074 */
+            for(var i = 0; i < $scope.shout_outs.length; i++){        
+                $scope.shout_outs[i].inserted = new Date($scope.shout_outs[i].inserted).toISOString();
+            }
             $scope.$emit('UNLOAD');
         }).error(function() {
             console.log("Error Retrieving Admin Shout Outs!");
@@ -490,50 +496,104 @@ angular.module('starter.controllers', [])
         });
 
         confirmPopup.then(function(res) {
-           if(res) {
-                $scope.$emit('LOAD');
+            $scope.$emit('LOAD');
+            if(res) {
                 var link = 'http://52.25.228.105/deleteShoutOut.php';
                 
-                $http.post(link, {n : item.name, i : item.inserted}).then(function (res){
-                    $scope.response = res.data.result; 
-
+                $http.post(link, {i : item.id}).then(function (res){
+                    $scope.response = res.data.result;               
+                    $scope.$emit('UNLOAD');
                     //Evaluate Response
                     if($scope.response.deleted == "1"){
-                        $scope.title = "Done!";
-                        $scope.message = "Shout Out Deleted!";
+                        //Deleted Successfully - Refresh Page
                         $window.location.reload(true);
                     }
                     else if($scope.response.deleted == "0"){
-                        $scope.title = "OOPS!";
-                        $scope.message = "Something Went Wrong - Please Try again!";
+                        var alertPopup = $ionicPopup.alert({
+                            title: "Oops!!",
+                            template: "Something went Wrong - Please Try Again"
+                        }); 
                     }
-                        
+
+                }, function errorCallback(response) {
                     $scope.$emit('UNLOAD');
-                    //Show alert to the user - success or failure
                     var alertPopup = $ionicPopup.alert({
-                        title: $scope.title,
-                        template: $scope.message
+                        title: "Oops!!",
+                        template: "Something went Wrong - Please Try Again"
                     }); 
-                });
-                
-                $ionicListDelegate.closeOptionButtons();            
+                });              
+                $ionicListDelegate.closeOptionButtons();                        
             } else {
+                $scope.$emit('UNLOAD');
                 $ionicListDelegate.closeOptionButtons();
             }
         });  
     }//Delete A ShoutOut
 })//admin_Shout_Outs_Ctrl
 
-.controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http, $state, $ionicHistory) {
+.controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http, $state, $ionicHistory, $ionicPopup, $window, $ionicListDelegate) {
     $scope.$emit('LOAD');
-    load_admin_songRequests.get()
-    .success(function(response) {
-        $scope.song_requests = response.song_requests;
-        $scope.$emit('UNLOAD');
-    }).error(function() {
-        console.log("Error - Retrieving Song Requests!");
-        $scope.$emit('UNLOAD');
-    });
+    //Load Song Requests Every Time The state changes
+    $scope.$on('$stateChangeSuccess', function() {
+        $scope.loadSongRequests();  
+	});
+
+    $scope.loadSongRequests = function(){
+        load_admin_songRequests.get()
+        .success(function(response) {
+            $scope.song_requests = response.song_requests;
+            for(var i = 0; i < $scope.song_requests.length; i++){        
+                $scope.song_requests[i].inserted = new Date($scope.song_requests[i].inserted).toISOString();
+                console.log($scope.song_requests[i].inserted);
+            }
+        
+            $scope.$emit('UNLOAD');
+        }).error(function() {
+            console.log("Error - Retrieving Song Requests!");
+            $scope.$emit('UNLOAD');
+        });
+    };
+
+    $scope.deleteSongRequest = function(item){
+        var confirmPopup = $ionicPopup.confirm({
+            title: 'Delete Song Request',
+            template: 'Are you sure you want to delete this Song Request: ' + item.title + ' By: ' + item.artist + '?'
+        });
+
+        confirmPopup.then(function(res) {
+            $scope.$emit('LOAD');
+            if(res) {
+                var link = 'http://52.25.228.105/deleteSongRequest.php';
+                
+                $http.post(link, {i : item.id}).then(function (res){
+                    $scope.response = res.data.result;               
+                    $scope.$emit('UNLOAD');
+                    //Evaluate Response
+                    if($scope.response.deleted == "1"){
+                        //Deleted Successfully - Refresh Page
+                        $window.location.reload(true);
+                    }
+                    else if($scope.response.deleted == "0"){
+                        var alertPopup = $ionicPopup.alert({
+                            title: "Oops!!",
+                            template: "Something went Wrong - Please Try Again"
+                        }); 
+                    }
+
+                }, function errorCallback(response) {
+                    $scope.$emit('UNLOAD');
+                    var alertPopup = $ionicPopup.alert({
+                        title: "Oops!!",
+                        template: "Something went Wrong - Please Try Again"
+                    }); 
+                });              
+                $ionicListDelegate.closeOptionButtons();                        
+            } else {
+                $scope.$emit('UNLOAD');
+                $ionicListDelegate.closeOptionButtons();
+            }
+        });  
+    };//Delete A Song Request
 
     $scope.reloadAdminHome = function(){
         $state.go('app.admin_home', {}, {reload: true});

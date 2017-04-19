@@ -8,16 +8,22 @@
     <div class="spinner">
         <ion-spinner icon="bubbles" ng-show="loading"></ion-spinner>
     </div>
-    <div class="list card" ng-repeat="item in song_requests" >
-        <div class="item item-divider" style="color: red">
-            Artist: {{item.artist}}
-        </div>
-        <div class="item item-text-wrap" style="color: purple">
-            Title: {{item.title}}
-        </div>
-        <div class="item item-divider" style="color: gray">
-            Genre: {{item.genre}}
-        </div>
-    </div>
+    <ion-list show-delete="false" can-swipe="true">     
+        <ion-item ng-repeat="item in song_requests">                   
+            <div class="item item-divider" style="background-color: #444; color: white">
+                Artist: {{item.artist}}
+            </div>
+            <div class="item item-divider" style="color: gray">
+                Title: {{item.title}}
+            </div>
+            <div class="item item-divider" style="color: gray">
+                Genre: {{item.genre}}
+            </div>
+            <div class="item item-divider" style="color: gray">
+                Added: {{item.inserted | date:'medium'}}
+            </div>
+            <ion-option-button ng-click="deleteSongRequest(item)" class="button-assertive icon ion-trash-a"></ion-option-button>
+        </ion-item>
+    </ion-list>
   </ion-content>
 </ion-view>

@@ -27,7 +27,7 @@
         $conn = new mysqli("127.0.0.1", "root", "", "dj");	
 
 
-        $sql = "DELETE FROM `shout_outs` WHERE id = $id";
+        $sql = "DELETE FROM `user_choice` WHERE id = $id";
 
         if ($conn->query($sql) === TRUE) {
             //successfully deleted
@@ -43,6 +43,4 @@
         $conn->close();	
 
     }//if
-
-
 ?>

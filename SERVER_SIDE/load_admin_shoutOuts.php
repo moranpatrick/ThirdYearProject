@@ -5,7 +5,7 @@
 
     $conn = new mysqli("127.0.0.1", "root", "", "dj");
 
-    $query="SELECT name, message, inserted FROM shout_outs ORDER BY inserted desc";
+    $query="SELECT id, name, message, inserted FROM shout_outs ORDER BY inserted desc";
 
     $result = $conn->query($query);
     $outp = "";
@@ -14,7 +14,8 @@
         if ($outp != "") {
             $outp .= ",";
         }
-        $outp .= '{"name":"'  . $rs["name"] . '",';
+        $outp .= '{"id":"'  . $rs["id"] . '",';
+		$outp .= '"name":"'  . $rs["name"] . '",';
         $outp .= '"message":"'   . $rs["message"]        . '",';
 	    $outp .= '"inserted":"'. $rs["inserted"]     . '"}';
     }  
