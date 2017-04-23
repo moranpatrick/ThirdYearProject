@@ -5,21 +5,21 @@
         </div>
         
         <form name="myForm" class="list" novalidate>
-            <h3 style="text-align: center; margin-top: 10px">Register</h3>
+            <h3 style="margin-top: 10px">Register</h3>
             <ion-list>
-                <label class="item item-input">
+                <label class="item item-input" ng-class="{ 'has-error' : myForm.email.$invalid && !myForm.email.$pristine }">
                     <span class="input-label">Email</span>
                     <input type="email" name="email" ng-model="data.email" required>
                 </label>
-                <label class="item item-input">
+                <label class="item item-input" ng-class="{ 'has-error' : myForm.username.$invalid && !myForm.username.$pristine }">
                     <span class="input-label">Username</span>
                     <input type="text" name="username" ng-model="data.username" required> 
                 </label>
-                <label class="item item-input">
+                <label class="item item-input" ng-class="{ 'has-error' : myForm.password.$invalid && !myForm.password.$pristine }">
                     <span class="input-label">Password</span>
                     <input type="password" name="password" ng-minlength="6" data-ng-model="data.password" required>
                 </label>
-                <label class="item item-input">
+                <label class="item item-input" ng-class="{ 'has-error' : myForm.password_confirmation.$invalid && !myForm.password_confirmation.$pristine }">
                     <span class="input-label">Confirm Password</span>
                     <input type="password" name="password_confirmation" ng-model="data.passwordConf" required data-password-verify="data.password">
                 </label>
@@ -36,7 +36,7 @@
                 <p ng-show="myForm.username.$error.required">* A username is required *</p>
                 <p ng-show="myForm.password.$error.required">* A password is required *</p>
                 <p ng-show="myForm.password.$error.minlength">* Password must be at least 6 characters *</p>
-                <p ng-show="myForm.password_confirmation.$error.passwordVerify">* Passwords do not match</p>
+                <p ng-show="myForm.password_confirmation.$error.passwordVerify">* Passwords do not match *</p>
             </div>
         </form>
     </ion-content>

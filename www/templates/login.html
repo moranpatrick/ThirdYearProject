@@ -3,14 +3,14 @@
     <div>
       <img style="border: solid" src="img/dj.jpg" height="auto" width="100%">
     </div>
-    <h3 style="text-align: Center">Please Sign In</h3>
+    <h3>Please Sign In</h3>
     <form class="list" name="myForm">
       <div>
-        <label class="item item-input" >
+        <label class="item item-input" ng-class="{ 'has-error' : myForm.email.$invalid && !myForm.email.$pristine }">
           <span class="input-label">Email</span>
           <input type="email" name="email" ng-model="data.email" required>
         </label>
-        <label class="item item-input">
+        <label class="item item-input" ng-class="{ 'has-error' : myForm.password.$invalid && !myForm.password.$pristine }">
           <span class="input-label">Password</span>
           <input type="password" name="password" ng-model="data.password" required>
         </label>

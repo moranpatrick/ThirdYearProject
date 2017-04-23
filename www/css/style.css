@@ -9,6 +9,37 @@ div.spinner{
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
+  margin-top: 15px;
 }
 
+h3{
+  text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+select {
+  font-weight: bold;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+label.item.item-input.has-error:after {
+  transform: translate3d(0,0,0);
+}
+
+label.item.item-input{
+  font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+
+label.item.item-input:after {
+  transition: 0.15s transform ease;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background: red;
+  width:100%;
+  left: 0;
+  transform: translate3d(-100%,0,0);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
 

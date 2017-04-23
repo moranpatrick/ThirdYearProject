@@ -7,7 +7,7 @@
 
       <form name="booking_form" novalidate>
         <div class="list">
-          <label class="item item-input item-floating-label">
+          <label class="item item-input item-floating-label"  ng-class="{ 'has-error' : booking_form.email.$invalid && !booking_form.email.$pristine }">
             <span class="input-label">Email</span>
             <input type="email" name="email" ng-model="data.email" placeholder="Enter Your Email Address" required>
           </label>
@@ -15,7 +15,7 @@
             <span class="input-label">Mobile Number</span>
             <input type="tel" name="telephone" placeholder="Enter Phone Number" ng-model="data.telephone">
           </label>
-          <label class="item item-input item-floating-label">
+          <label class="item item-input item-floating-label" ng-class="{ 'has-error' : booking_form.message.$invalid && !booking_form.message.$pristine }">
             <span class="input-label">Message</span>
             <textarea type="text" name="message" rows="8" ng-model="data.message" placeholder="Booking Details..." required></textarea>
           </label>
@@ -27,7 +27,7 @@
         </div
       </form>
       <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
-        <p ng-show="booking_form.email.$error.required">* An email is required *</p>
+        <p ng-show="booking_form.email.$error.required">* A valid email is required *</p>
         <p ng-show="booking_form.message.$error.required">* A message is required *</p>
       </div>
   </ion-content>

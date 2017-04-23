@@ -4,17 +4,21 @@
     <button ng-click="reloadHome()" class="button button-icon ion-android-home" side="right"></button>
   </ion-nav-buttons>
   <ion-content padding="'true'">     
+      
       <form name="myForm" novalidate>
         <div class="list">
-          <label class="item item-input item-floating-label">
+          
+          <label class="item item-input item-floating-label"  ng-class="{ 'has-error' : myForm.name.$invalid && !booking_form.name.$pristine }">
             <span class="input-label">Name</span>
             <input type="text" name="name" ng-model="data.name" ng-maxlength="30" placeholder="Enter Your Name here" required>
           </label>
-          <label class="item item-input item-floating-label">
+          <label class="item item-input item-floating-label"  ng-class="{ 'has-error' : myForm.message.$invalid && !booking_form.message.$pristine }">
             <span class="input-label">Message</span>
             <textarea type="text" name="message" rows="8" ng-model="data.message" ng-maxlength="200" placeholder="Enter your Message Here" required></textarea>
           </label>
+          
           <button class="button button-balanced button-block" ng-disabled="myForm.$invalid" ng-click="send_shout_out(data)">Send</button>
+          
           <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
             <p ng-show="myForm.name.$error.required">* A Name is required *</p>
             <p ng-show="myForm.message.$error.required">* A message is required *</p>

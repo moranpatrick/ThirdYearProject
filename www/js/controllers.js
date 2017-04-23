@@ -458,6 +458,7 @@ angular.module('starter.controllers', [])
 })//Admin_Home_Ctrl
 
 .controller('Admin_ShoutOuts_Ctrl', function(load_admin_shoutOuts, $scope, $http, $filter, $state, $ionicHistory, $ionicListDelegate, $ionicPopup, $window) {
+    
     //Load Shout Outs Every Time The state changes
     $scope.$on('$stateChangeSuccess', function() {
         $scope.loadShoutOuts();  
@@ -532,6 +533,7 @@ angular.module('starter.controllers', [])
 })//admin_Shout_Outs_Ctrl
 
 .controller('Admin_SongRequests_Ctrl', function(load_admin_songRequests, $scope, $http, $state, $ionicHistory, $ionicPopup, $window, $ionicListDelegate) {
+    
     $scope.$emit('LOAD');
     //Load Song Requests Every Time The state changes
     $scope.$on('$stateChangeSuccess', function() {
@@ -544,12 +546,10 @@ angular.module('starter.controllers', [])
             $scope.song_requests = response.song_requests;
             for(var i = 0; i < $scope.song_requests.length; i++){        
                 $scope.song_requests[i].inserted = new Date($scope.song_requests[i].inserted).toISOString();
-                console.log($scope.song_requests[i].inserted);
             }
         
             $scope.$emit('UNLOAD');
         }).error(function() {
-            console.log("Error - Retrieving Song Requests!");
             $scope.$emit('UNLOAD');
         });
     };
