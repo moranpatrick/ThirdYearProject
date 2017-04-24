@@ -19,7 +19,6 @@ angular.module('starter.controllers', [])
 
         confirmPopup.then(function(res) {
             if(res) {
-                console.log('You are sure');
                 var link = 'http://52.25.228.105/user_choice.php';
                 
                 $http.post(link, {a : item.artist, t : item.title, g : item.genre}).then(function (res){
@@ -41,21 +40,14 @@ angular.module('starter.controllers', [])
                         template: $scope.message
                     }); 
                 });
-
-            } else {
-                console.log('You are not sure');
-            }
+            } 
         });  
-
     };//selectSong()
 
     //Reload Home
     $scope.reloadHome = function(){
-        console.log("home app ctrl");
-
         $state.go('app.home', {}, {reload: true});
         $ionicHistory.nextViewOptions({
-            disableBack: true,
             reload: true
         });
     };
@@ -68,7 +60,7 @@ angular.module('starter.controllers', [])
     $scope.sendEmail = function() {
         if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-                console.log("Response -> " + result);
+               
             }, 
             "Feedback From App", // Subject
             "Hi, ",                      // Body
@@ -80,7 +72,6 @@ angular.module('starter.controllers', [])
             null);                   // Attachment Data
         }//if
     }
-
 })//Home_Page_Ctrl
 
 .controller('Bookings_Ctrl', function($scope, $ionicPopup, $http, $state) {
@@ -125,25 +116,21 @@ angular.module('starter.controllers', [])
 })//Home_Page_Ctrl
 
 .controller('Login_Ctrl', function($scope, $http, $state, $ionicHistory, $ionicPopup) {
-
     $scope.data = {};
 
     $scope.login = function() {
         $scope.$emit('BUT_OFF');
         $scope.$emit('LOAD');
         
-        //str = "http://127.0.0.1/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
         str = "http://52.25.228.105/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
         $http.get(str)
 			.success(function (response){
                 $scope.$emit('UNLOAD');
                 $scope.$emit('BUT_ON');
+
 				$scope.user_details = response.records;
-                console.log("Login Sucessful");
 				sessionStorage.setItem('loggedin_username', $scope.user_details.username);
-				sessionStorage.setItem('loggedin_email', $scope.user_details.email);
-                
-                //console.log($scope.user_details.username);
+				sessionStorage.setItem('loggedin_email', $scope.user_details.email);                
                 
 				$ionicHistory.nextViewOptions({
 					disableBack: true,
@@ -179,7 +166,6 @@ angular.module('starter.controllers', [])
         $scope.$emit('LOAD');
         $data = data;
         
-        //var link = 'http://127.0.0.1/register.php';
         var link = 'http://52.25.228.105/register.php';
         $http.post(link, {e : data.email, u : data.username, p : data.password})
         .then(function (res){	
@@ -187,8 +173,7 @@ angular.module('starter.controllers', [])
             
             if($scope.response.success == "1"){
                 $scope.title = "Success!";
-                $scope.template = "Your account has been successfully created!";
-                
+                $scope.template = "Your account has been successfully created!";          
                 //no back option
                 $ionicHistory.nextViewOptions({
                     //disableAnimate: true,
@@ -216,8 +201,7 @@ angular.module('starter.controllers', [])
             var alertPopup = $ionicPopup.alert({
                     title: $scope.title,
                     template: $scope.template
-            });
-                    
+            });                  
         });
 	}//register()
 
@@ -226,64 +210,53 @@ angular.module('starter.controllers', [])
 .controller('Shout_Outs_Ctrl', function($scope, $http, $ionicPopup) {
       
     $scope.send_shout_out= function(data) {
-
         $data = data;
         var link = 'http://52.25.228.105/shout_out.php';
-        //var link = 'http://127.0.0.1/shout_out.php';
 
-        $http.post(link, {n : data.name, m : data.message })
-		    .then(function (res){	
-				
-                $scope.response = res.data.result; 
-                //Evaluate Response
-                if($scope.response.inserted == "1"){
-                    $scope.title = "Message Sent!";
-					$scope.message = "Your Message has been sent!";
-                }
-                else if($scope.response.inserted == "0"){
-                    $scope.title = "OOPS!";
-					$scope.message = "Something Went Wrong - Your Message Was not Sent!";
-                }
+        $http.post(link, {n : data.name, m : data.message }).then(function (res){				
+            $scope.response = res.data.result; 
+            //Evaluate Response
+            if($scope.response.inserted == "1"){
+                $scope.title = "Message Sent!";
+                $scope.message = "Your Message has been sent!";
+            }
+            else if($scope.response.inserted == "0"){
+                $scope.title = "OOPS!";
+                $scope.message = "Something Went Wrong - Your Message Was not Sent!";
+            }
 
-                //Show alert to the user - success or failure
-                var alertPopup = $ionicPopup.alert({
-						title: $scope.title,
-						template: $scope.message
-				});
-                 
-                //Clear The input fields
-                $data.name = "";
-                $data.message = "";      
+            //Show alert to the user - success or failure
+            var alertPopup = $ionicPopup.alert({
+                    title: $scope.title,
+                    template: $scope.message
+            });
+                
+            //Clear The input fields
+            $data.name = "";
+            $data.message = "";      
         });
-
     }//shout_out_function
-
 })//Shout_Outs_Ctrl
 
 .controller('User_Profile_Ctrl', function($scope, $state, $ionicHistory) {
-	console.log("In profile ctrl");
     $scope.loggedin_username = sessionStorage.getItem('loggedin_username');
 	$scope.loggedin_email = sessionStorage.getItem('loggedin_email');
 
     $scope.logout = function(){
-            console.log("logging out");
             delete sessionStorage.loggedin_username;
             delete sessionStorage.loggedin_email;
 
-            $ionicHistory.clearCache();
-            
+            $ionicHistory.clearCache();         
             $ionicHistory.nextViewOptions({
-                //disableAnimate: true,
                 disableBack: true
             });
             $state.go('app.login', {}, {location: "replace", reload: true});
     }; 
 
     $scope.contact_dev = function() {
-        console.log("contact dev");
         if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-                console.log("Response -> " + result);
+                
             }, 
             "Feedback From App", // Subject
             "Hi, ",                      // Body
@@ -295,17 +268,14 @@ angular.module('starter.controllers', [])
             null);                   // Attachment Data
         }//if
     }//contact_dev()
-
-})//Shout_Outs_Ctrl
+})//User_Profile_Ctrl
 
 .controller('Recent_Hits_Ctrl', function($scope, $http, load_playlists, $ionicPopup, $state, $timeout) {
     $scope.noMoreItemsAvailable = false; // lazy load list   
     //loads the menu----onload event
 	$scope.$on('$stateChangeSuccess', function() {
-		console.log("Loadmore();");
         $scope.loadMore();  //Added Infine Scroll
-	});
-	 
+	});	 
 	// Loadmore() called inorder to load the list 
 	$scope.loadMore = function() {
 		str = load_playlists.getUrl("charts");
@@ -316,13 +286,13 @@ angular.module('starter.controllers', [])
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 		}).error(function() {
+            
             var alertPopup = $ionicPopup.alert({
 				title: 'Error Loading Data!',
 				template: 'Something went wrong!'
 			});
             $state.go('app.home', {}, {reload: false});
-		});
-			
+		});		
         //more data can be loaded or not
         if ( $scope.hasmore == 0 ) {
             $scope.noMoreItemsAvailable = true;
@@ -358,7 +328,7 @@ angular.module('starter.controllers', [])
             $scope.noMoreItemsAvailable = true;
         }
 	};
-})//Rock_Controller
+})//RnB_Controller
 
 .controller('Rock_Ctrl', function($scope, $http, load_playlists, $ionicPopup, $state, $timeout) {
     $scope.noMoreItemsAvailable = false; // lazy load list   
@@ -373,7 +343,6 @@ angular.module('starter.controllers', [])
         $http.get(str).success(function (response){
             $scope.rock_list = response.records;
 			$scope.hasmore = response.has_more;	//"has_more": 0	or number of items left
-            console.log("Has More: " + $scope.hasmore);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 		}).error(function() {
@@ -404,7 +373,6 @@ angular.module('starter.controllers', [])
         $http.get(str).success(function (response){
             $scope.seventies_list = response.records;
 			$scope.hasmore = response.has_more;	//"has_more": 0	or number of items left
-            console.log("Has More: " + $scope.hasmore);
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 		}).error(function() {
@@ -425,26 +393,23 @@ angular.module('starter.controllers', [])
 .controller('Admin_Home_Ctrl', function(load_admin, $scope, $http, $ionicHistory, $state) {    
 
 	$scope.$on('$stateChangeSuccess', function() {
-		console.log("Reloading Admin Home();");
-        $scope.reloadAdminTotals();  //Added Infine Scroll
+        //Every Time the State Changes Successfully Reload Totals
+        $scope.reloadAdminTotals();  
 	});
 
     $scope.reloadAdminTotals = function(){
         str = load_admin.getUrl();
 			
         $http.get(str).success(function (response){
-            console.log("Success Admin Home");
             $scope.tot1 = response.shout_outs;
             $scope.tot2 = response.songRequests;
             $scope.$broadcast('scroll.refreshComplete');
         }).error(function() {
-            console.log("Error Retrieving Admin Home Totals");
             $scope.$broadcast('scroll.refreshComplete');
         })
     }
 
     $scope.admin_logout = function(){
-        console.log("logging out - deleting session storage variables");
         delete sessionStorage.loggedin_username;
         delete sessionStorage.loggedin_email;
 
@@ -469,7 +434,6 @@ angular.module('starter.controllers', [])
         load_admin_shoutOuts.get()
         .success(function(response) {
             $scope.shout_outs = response.shout_outs;
-            console.log($scope.shout_outs[0].id);
             /*Convert All SQL TimeStamp Dates to a format like ISO 8601 so angular can filter the date nicely
             Code for this: http://stackoverflow.com/questions/20709910/unable-to-format-default-mysql-datetime#answer-20710074 */
             for(var i = 0; i < $scope.shout_outs.length; i++){        
@@ -477,7 +441,6 @@ angular.module('starter.controllers', [])
             }
             $scope.$emit('UNLOAD');
         }).error(function() {
-            console.log("Error Retrieving Admin Shout Outs!");
             $scope.$emit('UNLOAD');
         });
     };
@@ -602,8 +565,5 @@ angular.module('starter.controllers', [])
             reload: true
         });
     };
-
 });//admin_songRequestsCtrl
-
-
 

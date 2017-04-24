@@ -1,10 +1,11 @@
 <ion-view view-title="Bookings">
+  
   <ion-nav-buttons side="right">
     <a href="#/app/user_profile" class="button button-icon ion-android-person" side="right"></a>
     <button ng-click="reloadHome()" class="button button-icon ion-android-home" side="right"></button>
   </ion-nav-buttons>
+  
   <ion-content padding="'true'">  
-
       <form name="booking_form" novalidate>
         <div class="list">
           <label class="item item-input item-floating-label"  ng-class="{ 'has-error' : booking_form.email.$invalid && !booking_form.email.$pristine }">
@@ -21,14 +22,17 @@
           </label>
           
           <button class="button button-balanced button-block" ng-disabled="booking_form.$invalid" ng-show="!show_button" ng-click="make_booking(data)">Enquire</button>
+          
           <div class="spinner">
             <ion-spinner icon="lines" ng-show="loading"></ion-spinner>
           </div>
         </div
       </form>
+     
       <div style="text-align: center; color: red; font-weight: bold; font-family: Verdana, Geneva, Tahoma, sans-serif">
         <p ng-show="booking_form.email.$error.required">* A valid email is required *</p>
         <p ng-show="booking_form.message.$error.required">* A message is required *</p>
       </div>
+      
   </ion-content>
 </ion-view>

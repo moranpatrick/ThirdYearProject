@@ -1,7 +1,7 @@
 angular.module('starter.directives', []);
 
 angular.module('starter.directives')
-
+//Thus custom directive compares the two passwords for register and returns true if they match
 .directive("passwordVerify", function() {
    return {
       require: "ngModel",

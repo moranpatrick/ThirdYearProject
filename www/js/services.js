@@ -24,6 +24,7 @@ angular.module('starter.services', [])
     return obj;
 })
 
+//This factory makes a HTTP Get Request to run the php script and get requests
 .factory('load_admin_songRequests', function($http) {    
         return {
             get : function() {

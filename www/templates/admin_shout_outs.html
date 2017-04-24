@@ -4,9 +4,11 @@
   </ion-nav-buttons>
 
   <ion-content padding="'true'">
+    
     <div class="spinner">
         <ion-spinner icon="bubbles" ng-show="loading"></ion-spinner>
     </div>
+
     <ion-list show-delete="false" can-swipe="true">     
         <ion-item ng-repeat="item in shout_outs">                   
             <div class="item item-divider" style="background-color:#444; color: white">
@@ -19,5 +21,6 @@
             <ion-option-button ng-click="deleteShoutOut(item);" class="button-assertive icon ion-trash-a"></ion-option-button>
         </ion-item>
     </ion-list>
+
   </ion-content>
 </ion-view>

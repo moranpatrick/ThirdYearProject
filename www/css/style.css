@@ -1,4 +1,4 @@
-/* Empty. Add your own CSS if you like */
+/* Some CSS to style App */
 div.spinner{
   margin-top: 10px;
   text-align: center;
@@ -14,6 +14,10 @@ div.spinner{
 
 h3{
   text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h4{
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
@@ -41,5 +45,9 @@ label.item.item-input:after {
   left: 0;
   transform: translate3d(-100%,0,0);
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.item{
+  font-family: Verdana, Geneva, Tahoma, sans-serif
 }
 
