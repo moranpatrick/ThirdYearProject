@@ -58,6 +58,7 @@ angular.module('starter.controllers', [])
     $scope.slide_items = [{"p_image_id":"dj"}, {"p_image_id":"dj1"}, {"p_image_id":"dj3"}];
     /*Function to open default email client on phone and prepare an email*/
     $scope.sendEmail = function() {
+        /* This function launches default email client and populates fields */
         if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
                
@@ -82,7 +83,7 @@ angular.module('starter.controllers', [])
 
         $scope.$emit('LOAD');
         $scope.$emit('BUT_OFF');
-
+        /* Pass through Data from form to use with php mailer */
         $http.post($scope.url, {"email": $scope.data.email, "telephone": $scope.data.telephone, "message": $scope.data.message}).
                 success(function(data, status) {
                     //Stop the loading Icon
@@ -92,7 +93,7 @@ angular.module('starter.controllers', [])
                     $scope.data.email = "";
                     $scope.data.telephone = "";  
                     $scope.data.message = "";  
-                    
+                    //Successs
                     var alertPopup = $ionicPopup.alert({
 						title: 'Enquiry Sent!',
 						template: 'You will be hearing from DJ Lee shortly!'
@@ -121,10 +122,11 @@ angular.module('starter.controllers', [])
     $scope.login = function() {
         $scope.$emit('BUT_OFF');
         $scope.$emit('LOAD');
-        
+        // Pass through users username and password to match with database 
         str = "http://52.25.228.105/login.php?e="+$scope.data.email+"&p="+$scope.data.password;
         $http.get(str)
 			.success(function (response){
+                //Successful Login
                 $scope.$emit('UNLOAD');
                 $scope.$emit('BUT_ON');
 
@@ -136,7 +138,7 @@ angular.module('starter.controllers', [])
 					disableBack: true,
                     reload: true
 				});
-                
+                //Check if its admin or user
                 if($scope.user_details.email == "djgarrylee@gmail.com"){
                     //Admin User Logged in
                     $state.go('app.admin_home', {}, {reload: true});
@@ -148,6 +150,7 @@ angular.module('starter.controllers', [])
                     location.reload();
                 }
 			}).error(function() {
+                    //Wrong Details
                     $scope.$emit('UNLOAD');
                     $scope.$emit('BUT_ON');
 
@@ -165,7 +168,7 @@ angular.module('starter.controllers', [])
         $scope.$emit('BUT_OFF');
         $scope.$emit('LOAD');
         $data = data;
-        
+        //Pass through all users details to php script so they can be added to the database
         var link = 'http://52.25.228.105/register.php';
         $http.post(link, {e : data.email, u : data.username, p : data.password})
         .then(function (res){	
@@ -212,7 +215,7 @@ angular.module('starter.controllers', [])
     $scope.send_shout_out= function(data) {
         $data = data;
         var link = 'http://52.25.228.105/shout_out.php';
-
+        //Pass through users name and message so it can be saved in the database
         $http.post(link, {n : data.name, m : data.message }).then(function (res){				
             $scope.response = res.data.result; 
             //Evaluate Response
@@ -243,17 +246,19 @@ angular.module('starter.controllers', [])
 	$scope.loggedin_email = sessionStorage.getItem('loggedin_email');
 
     $scope.logout = function(){
-            delete sessionStorage.loggedin_username;
-            delete sessionStorage.loggedin_email;
-
-            $ionicHistory.clearCache();         
-            $ionicHistory.nextViewOptions({
-                disableBack: true
-            });
-            $state.go('app.login', {}, {location: "replace", reload: true});
+        /* Logs out the user */
+        delete sessionStorage.loggedin_username;
+        delete sessionStorage.loggedin_email;
+        /* Clear Cache */
+        $ionicHistory.clearCache();         
+        $ionicHistory.nextViewOptions({
+            disableBack: true
+        });
+        $state.go('app.login', {}, {location: "replace", reload: true});
     }; 
 
     $scope.contact_dev = function() {
+        /* This method launches default email client and populates fields */
         if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
                 
@@ -271,7 +276,7 @@ angular.module('starter.controllers', [])
 })//User_Profile_Ctrl
 
 .controller('Recent_Hits_Ctrl', function($scope, $http, load_playlists, $ionicPopup, $state, $timeout) {
-    $scope.noMoreItemsAvailable = false; // lazy load list   
+    $scope.noMoreItemsAvailable = false;   
     //loads the menu----onload event
 	$scope.$on('$stateChangeSuccess', function() {
         $scope.loadMore();  //Added Infine Scroll
@@ -282,7 +287,7 @@ angular.module('starter.controllers', [])
 			
         $http.get(str).success(function (response){
             $scope.chart_list = response.records;
-			$scope.hasmore = response.has_more;	//"has_more": 0	or number of items left
+			$scope.hasmore = response.has_more;	
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 		}).error(function() {
@@ -312,7 +317,7 @@ angular.module('starter.controllers', [])
 			
         $http.get(str).success(function (response){
             $scope.rnb_list = response.records;
-			$scope.hasmore = response.has_more;	//"has_more": 0	or number of items left
+			$scope.hasmore = response.has_more;	
 			$scope.$broadcast('scroll.infiniteScrollComplete');
 
 		}).error(function() {
@@ -410,9 +415,10 @@ angular.module('starter.controllers', [])
     }
 
     $scope.admin_logout = function(){
+        //Logs the admin out
         delete sessionStorage.loggedin_username;
         delete sessionStorage.loggedin_email;
-
+        //Clear Cache
         $ionicHistory.clearCache();       
         $ionicHistory.nextViewOptions({
             disableBack: true
@@ -507,10 +513,10 @@ angular.module('starter.controllers', [])
         load_admin_songRequests.get()
         .success(function(response) {
             $scope.song_requests = response.song_requests;
+            //Convert to an angular date
             for(var i = 0; i < $scope.song_requests.length; i++){        
                 $scope.song_requests[i].inserted = new Date($scope.song_requests[i].inserted).toISOString();
             }
-        
             $scope.$emit('UNLOAD');
         }).error(function() {
             $scope.$emit('UNLOAD');
