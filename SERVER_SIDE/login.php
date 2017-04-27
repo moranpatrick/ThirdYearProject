@@ -9,14 +9,14 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 			
             $conn = new mysqli("127.0.0.1", "root", "", "dj");						
 			
-            $email=$_GET["e"];		$password=$_GET["p"];				
+            $email=$_GET["e"];		
+			$password=$_GET["p"];				
 			
 			// To protect MySQL injection for Security purpose		
 			$email = stripslashes($email);		
 			$password = stripslashes($password);		
 			$email = $conn->real_escape_string($email);		
 			$password = $conn->real_escape_string($password);		
-			//$password = md5($password);	
 			$salt = sha1(md5($password));
 			$password = md5($password.$salt); 	
 			
@@ -24,7 +24,7 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 					
 			$result = $conn->query($query);		
             $outp = "";				
-		
+			//Returns an array that corresponds to the fetched row
 			if( $rs = $result->fetch_array(MYSQLI_ASSOC)) {			
 				
 				if ($outp != "") {
@@ -33,9 +33,7 @@ if( isset($_GET["e"]) && isset($_GET["p"]) ){
 				
 				$outp .= '{"email":"'  . $rs["email"] . '",';			
 				$outp .= '"username":"'   . $rs["username"] . '"}';			
-	
-			}	
-			
+			}			
 			$outp ='{"records":'.$outp.'}';		
 			
             $conn->close();		

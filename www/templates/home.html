@@ -1,11 +1,12 @@
 <ion-view view-title="Home">
-  
+   <!-- buttons in nav bar -->
   <ion-nav-buttons side="right">
     <a href="#/app/user_profile" class="button button-icon ion-android-person" side="right"></a>
     <button ng-click="reloadHome()" class="button button-icon ion-android-home" side="right"></button>
   </ion-nav-buttons>
   
   <ion-content padding="'true'">    
+    <!-- Ion Slide Box To display a slideshow if images -->
     <ion-slide-box auto-play ="true" does-continue="true" show-pager="true">
       <ion-slide class="swiper-slide swiper-slide-active" ng-repeat="slide in slide_items" >
           <img  style="border: solid; margin-top: 12px" ng-src="{{'img/'+ slide.p_image_id +'.jpg'}}"  ng-click="showProductInfo(slide.p_image_id)" >

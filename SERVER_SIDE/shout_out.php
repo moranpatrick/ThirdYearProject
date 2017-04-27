@@ -19,28 +19,28 @@
     $postdata = file_get_contents("php://input");
 
     if (isset($postdata)) {
-    $request = json_decode($postdata);
+        $request = json_decode($postdata);
 
-    $name = $request->n;  
-    $message = $request->m; 
+        $name = $request->n;  
+        $message = $request->m; 
 
-    $conn = new mysqli("127.0.0.1", "root", "", "dj");	
+        $conn = new mysqli("127.0.0.1", "root", "", "dj");	
 
-    $name = $conn->real_escape_string($name);
-    $message = $conn->real_escape_string($message);
+        $name = $conn->real_escape_string($name);
+        $message = $conn->real_escape_string($message);
 
-    $sql = "INSERT INTO shout_outs(name, message) VALUES('$name', '$message')";
+        $sql = "INSERT INTO shout_outs(name, message) VALUES('$name', '$message')";
+        //Successfully Inputed
+        if ($conn->query($sql) === TRUE) {
+            $outp = '{"result": {"inserted": "1"} }';
+        }
+        else{
+            //Error inserting query
+            $outp = '{"result": {"inserted": "0"} }';
+        } 
 
-    if ($conn->query($sql) === TRUE) {
-        $outp = '{"result": {"inserted": "1"} }';
-    }
-    else{
-        $outp = '{"result": {"inserted": "0"} }';
-    } 
-
-    echo $outp;
-    
-    $conn->close();	
-
+        echo $outp;
+        
+        $conn->close();	
     }//if
 ?>

@@ -57,11 +57,13 @@ angular.module('starter.controllers', [])
     //Sliding images acting as a gallery on home page
     $scope.slide_items = [{"p_image_id":"dj"}, {"p_image_id":"dj1"}, {"p_image_id":"dj3"}];
     /*Function to open default email client on phone and prepare an email*/
+    
+    /* https://www.thepolyglotdeveloper.com/2014/08/send-email-android-ios-ionicframework/ */
     $scope.sendEmail = function() {
         /* This function launches default email client and populates fields */
         if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-               
+        
             }, 
             "Feedback From App", // Subject
             "Hi, ",                      // Body
@@ -259,6 +261,7 @@ angular.module('starter.controllers', [])
 
     $scope.contact_dev = function() {
         /* This method launches default email client and populates fields */
+        /* https://www.thepolyglotdeveloper.com/2014/08/send-email-android-ios-ionicframework/ */
         if(window.plugins && window.plugins.emailComposer) {
             window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
                 
